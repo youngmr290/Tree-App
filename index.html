@@ -14,8 +14,29 @@
     <header class="hero">
       <p class="eyebrow">Handbook v2</p>
       <h1>On-Farm Tree Economics Tool</h1>
-      <p class="subhead">Workbook-based web implementation. Data stays local in your browser.</p>
+      <p class="subhead">Data stays local in your browser.</p>
     </header>
+
+    <section class="panel">
+      <h2>Definitions</h2>
+      <div class="background-grid">
+        <article class="background-card">
+          <h3>Tree Belt (or Block)</h3>
+          <p>The tree belt refers to the area occupied by planted trees, including an adjacent side buffer.</p>
+          <p>The side buffer is treated as a no-cropping zone immediately next to the trees where production is negligible or uneconomic.</p>
+          <p>In this analysis, the side buffer is 4 m wide.</p>
+        </article>
+        <article class="background-card">
+          <h3>Competition Zone</h3>
+          <p>The competition zone is the adjacent area that remains cropped or grazed under normal management.</p>
+          <p>Production in this zone can be influenced by both negative interactions (for example, water, light, and nutrient competition) and positive interactions (for example, shelter and micro-climate moderation).</p>
+        </article>
+      </div>
+      <figure class="definition-figure">
+        <img src="./assets/definitions-figure.png" alt="Tree belt layout diagram showing open paddock, competition zones, belt, wind direction, and spacing terms.">
+        <figcaption>Figure: Belt layout and spacing definitions used in this analysis.</figcaption>
+      </figure>
+    </section>
 
     <section class="panel">
       <h2>Background</h2>
@@ -31,10 +52,15 @@
           <h3>Shelter</h3>
           <p>Trees can offer valuable shelter to livestock, reducing exposure to harsh weather, lowering energy expenditure, and improving survival rates, particularly for vulnerable animals such as twin-bearing ewes.</p>
           <p>The economic benefits of shelter depend on livestock behaviour, mob priority and management, and paddock configuration. Benefit is higher when high-priority mobs are placed in sheltered paddocks and when paddock layout improves shelter access.</p>
+          <figure class="inline-figure">
+            <img src="./assets/shelter.png" alt="Shelter zone illustration for paddocks and tree belt configuration.">
+          </figure>
         </article>
         <article class="background-card">
           <h3>Adjacent Pasture and Crop Production</h3>
           <p>Tree belts can influence pasture and crop yields through competing effects. Yield can be reduced near trees due to shading and competition for water and nutrients, while further from trees wind protection can increase productivity.</p>
+          <p>In this analysis, production is reduced by 38% between 0 and 11.2 m from trees, and increased by 4% between 16 and 80 m from trees.</p>
+          <p>Harvested trees have half the interaction with adjacent land.</p>
         </article>
         <article class="background-card">
           <h3>Carbon Sequestration</h3>
@@ -44,7 +70,8 @@
         <article class="background-card">
           <h3>Biodiversity</h3>
           <p>Tree plantations, particularly with native species, can enhance on-farm biodiversity. Emerging environmental markets may provide incentives and income streams for projects that deliver biodiversity outcomes.</p>
-          <p>Credit yields and prices can vary substantially by vegetation type and local demand, and projects may also face setup and annual monitoring costs.</p>
+          <p>Credit yields and prices can vary substantially by vegetation type and local demand. Past observations commonly report around 4-8 credits/ha and values often in the order of $2,300-$8,500 per credit.</p>
+          <p>Projects may also face setup and annual monitoring costs.</p>
         </article>
         <article class="background-card">
           <h3>Biomass Production</h3>
@@ -54,12 +81,19 @@
         <article class="background-card">
           <h3>Micro-climate</h3>
           <p>At farm scale, trees can influence micro-climate through evapotranspiration, local humidity changes, and temperature moderation, and may contribute to small local rainfall changes.</p>
+          <p>In this tool context, a 10 km rainfall footprint is used and a 15% increase in tree cover is associated with a 2.6% rainfall increase assumption.</p>
           <p>Substantial tree area may be required before measurable on-farm production gains are observed.</p>
         </article>
         <article class="background-card">
-          <h3>Groundwater, Salinity, and Erosion</h3>
+          <h3>Groundwater and Salinity</h3>
           <p>Deep-rooted vegetation can reduce groundwater recharge and help limit saline groundwater rise when plantings are strategically located. In some landscapes, significant revegetation may be needed to materially affect salinity spread.</p>
+          <p>Following Flugge et al. (2006), the baseline rate of salinity spread is assumed to be 0.89% per year under standard management. Where trees are established, salinity expansion is assumed to decline in direct proportion to the reduction in groundwater recharge, allowing estimation of the economic benefit from avoided future salinity impacts.</p>
+        </article>
+        <article class="background-card">
+          <h3>Erosion</h3>
           <p>Vegetation can also support erosion control by stabilising soil and reducing wind and water impact. Financial outcomes are highly farm-specific and depend on local conditions and existing management practices.</p>
+          <p>In this analysis, the benefits of erosion mitigation are only allocated to belt plantings.</p>
+          <p>The value benefit was estimated based on reduced erosion risk allowing an additional 250 kg DM per hectare to be grazed.</p>
         </article>
       </div>
     </section>
@@ -88,48 +122,106 @@
         </div>
 
         <details>
-          <summary>Advanced</summary>
-          <div class="field-grid">
-            <label class="field"><span>Ripping/Mounding ($/ha)</span><input type="number" name="costRippingMounding" step="0.01"></label>
-            <label class="field"><span>Initial Weed ($/ha)</span><input type="number" name="costInitialWeed" step="0.01"></label>
-            <label class="field"><span>Fertiliser Base Init ($/ha)</span><input type="number" name="costFertBaseInit" step="0.01"></label>
-            <label class="field"><span>Fertiliser Extra Init ($/ha)</span><input type="number" name="costFertExtraInitHarvest" step="0.01"></label>
-            <label class="field"><span>Seedlings ($/plant)</span><input type="number" name="costSeedlings" step="0.01"></label>
-            <label class="field"><span>Mortality (0-1)</span><input type="number" name="costMortality" step="0.001"></label>
-            <label class="field"><span>Planting rate (plants/day)</span><input type="number" name="plantingRate" step="1"></label>
-            <label class="field"><span>Planting equipment ($/day)</span><input type="number" name="costPlantingEquipPerDay" step="0.01"></label>
-            <label class="field"><span>Planting labour ($/day)</span><input type="number" name="costPlantingLabourPerDay" step="0.01"></label>
-            <label class="field"><span>Year 1 weed ($/ha)</span><input type="number" name="costYear1Weed" step="0.01"></label>
-            <label class="field"><span>Year 1 fert base ($/ha)</span><input type="number" name="costYear1FertBase" step="0.01"></label>
-            <label class="field"><span>Year 1 fert extra ($/ha)</span><input type="number" name="costYear1FertExtraHarvest" step="0.01"></label>
-            <label class="field"><span>Ongoing weed ($/ha)</span><input type="number" name="costOngoingWeed" step="0.01"></label>
-            <label class="field"><span>Ongoing fert base ($/ha)</span><input type="number" name="costOngoingFertBase" step="0.01"></label>
-            <label class="field"><span>Ongoing fert extra ($/ha)</span><input type="number" name="costOngoingFertExtraHarvest" step="0.01"></label>
-            <label class="field"><span>Sequestration setup ($/farm)</span><input type="number" name="costSequestrationSetupFarm" step="0.01"></label>
-            <label class="field"><span>Sequestration annual ($/ha)</span><input type="number" name="costSequestrationAnnualHa" step="0.01"></label>
-            <label class="field"><span>Biodiversity setup ($/farm)</span><input type="number" name="costBiodiversitySetupFarm" step="0.01"></label>
-            <label class="field"><span>Biodiversity annual ($/ha)</span><input type="number" name="costBiodiversityAnnualHa" step="0.01"></label>
-            <label class="field"><span>Harvest contract ($/hr)</span><input type="number" name="costHarvestContractHr" step="0.01"></label>
-            <label class="field"><span>Harvest rate (t/hr)</span><input type="number" name="harvestRateTHr" step="0.01"></label>
-            <label class="field"><span>Transport ($/t/km)</span><input type="number" name="costTransportPerTKm" step="0.001"></label>
-            <label class="field"><span>Transport distance (km)</span><input type="number" name="transportDistanceKm" step="0.1"></label>
-            <label class="field"><span>Carbon yield Carb Block</span><input type="number" name="carbonYieldCarbBlock" step="0.001"></label>
-            <label class="field"><span>Carbon yield Carb Belt</span><input type="number" name="carbonYieldCarbBelt" step="0.001"></label>
-            <label class="field"><span>Carbon yield Bio Block</span><input type="number" name="carbonYieldBioBlock" step="0.001"></label>
-            <label class="field"><span>Carbon yield Harv Belt</span><input type="number" name="carbonYieldHarvBelt" step="0.001"></label>
-            <label class="field"><span>Carbon base price ($/t)</span><input type="number" name="carbonPriceBase" step="0.01"></label>
-            <label class="field"><span>Bio value Carb Block</span><input type="number" name="biodiversityValueCarbBlock" step="0.01"></label>
-            <label class="field"><span>Bio value Carb Belt</span><input type="number" name="biodiversityValueCarbBelt" step="0.01"></label>
-            <label class="field"><span>Bio value Bio Block</span><input type="number" name="biodiversityValueBioBlock" step="0.01"></label>
-            <label class="field"><span>Bio value Harv Belt</span><input type="number" name="biodiversityValueHarvBelt" step="0.01"></label>
-            <label class="field"><span>Biomass yield Carb Block</span><input type="number" name="biomassYieldCarbBlock" step="0.001"></label>
-            <label class="field"><span>Biomass yield Carb Belt</span><input type="number" name="biomassYieldCarbBelt" step="0.001"></label>
-            <label class="field"><span>Biomass yield Bio Block</span><input type="number" name="biomassYieldBioBlock" step="0.001"></label>
-            <label class="field"><span>Biomass yield Harv Belt</span><input type="number" name="biomassYieldHarvBelt" step="0.001"></label>
-            <label class="field"><span>Biomass base price ($/t)</span><input type="number" name="biomassPriceBase" step="0.01"></label>
-            <label class="field"><span>Micro increase Central</span><input type="number" name="microIncreaseCentral" step="0.001"></label>
-            <label class="field"><span>Micro increase Eastern</span><input type="number" name="microIncreaseEastern" step="0.001"></label>
-          </div>
+          <summary>Advanced Inputs</summary>
+
+          <fieldset class="assumption-group">
+            <legend>Cost - Initial Costs (Site Prep)</legend>
+            <div class="field-grid">
+              <label class="field"><span>Ripping/Mounding ($/ha)</span><input type="number" name="costRippingMounding" step="1"></label>
+              <label class="field"><span>Initial Weed Control ($/ha)</span><input type="number" name="costInitialWeed" step="1"></label>
+              <label class="field"><span>Fertiliser Base ($/ha)</span><input type="number" name="costFertBaseInit" step="1"></label>
+              <label class="field"><span>Fertiliser Extra if Harvested ($/ha)</span><input type="number" name="costFertExtraInitHarvest" step="1"></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="assumption-group">
+            <legend>Cost - Initial Costs (Planting)</legend>
+            <div class="field-grid">
+              <label class="field"><span>Seedlings ($/plant)</span><input type="number" name="costSeedlings" step="0.1"></label>
+              <label class="field"><span>Mortality (%)</span><input type="number" name="costMortality" step="0.1"></label>
+              <label class="field"><span>Planting Rate (plants/day)</span><input type="number" name="plantingRate" step="1"></label>
+              <label class="field"><span>Planting Equipment ($/day)</span><input type="number" name="costPlantingEquipPerDay" step="1"></label>
+              <label class="field"><span>Farmer Labour - Planting ($/day)</span><input type="number" name="costPlantingLabourPerDay" step="1"></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="assumption-group">
+            <legend>Cost - Year 1 Costs</legend>
+            <div class="field-grid">
+              <label class="field"><span>Weed Control ($/ha)</span><input type="number" name="costYear1Weed" step="1"></label>
+              <label class="field"><span>Fertiliser Base ($/ha)</span><input type="number" name="costYear1FertBase" step="1"></label>
+              <label class="field"><span>Fertiliser Extra if Harvested ($/ha)</span><input type="number" name="costYear1FertExtraHarvest" step="1"></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="assumption-group">
+            <legend>Cost - Ongoing Costs</legend>
+            <div class="field-grid">
+              <label class="field"><span>Weed Control ($/ha)</span><input type="number" name="costOngoingWeed" step="1"></label>
+              <label class="field"><span>Fertiliser Base ($/ha)</span><input type="number" name="costOngoingFertBase" step="1"></label>
+              <label class="field"><span>Fertiliser Extra if Harvested ($/ha)</span><input type="number" name="costOngoingFertExtraHarvest" step="1"></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="assumption-group">
+            <legend>Sequestration Costs</legend>
+            <div class="field-grid">
+              <label class="field"><span>Setup Monitoring and Auditing ($/farm)</span><input type="number" name="costSequestrationSetupFarm" step="1"></label>
+              <label class="field"><span>Annual Monitoring and Auditing ($/ha)</span><input type="number" name="costSequestrationAnnualHa" step="1"></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="assumption-group">
+            <legend>Biodiversity Costs and Values</legend>
+            <div class="field-grid">
+              <label class="field"><span>Setup Monitoring and Auditing ($/farm)</span><input type="number" name="costBiodiversitySetupFarm" step="1"></label>
+              <label class="field"><span>Annual Monitoring and Auditing ($/ha)</span><input type="number" name="costBiodiversityAnnualHa" step="1"></label>
+            </div>
+            <div class="field-grid four-col">
+              <label class="field"><span>Biodiversity Value - Carb Block ($/ha)</span><input type="number" name="biodiversityValueCarbBlock" step="1"></label>
+              <label class="field"><span>Biodiversity Value - Carb Belt ($/ha)</span><input type="number" name="biodiversityValueCarbBelt" step="1"></label>
+              <label class="field"><span>Biodiversity Value - Bio Block ($/ha)</span><input type="number" name="biodiversityValueBioBlock" step="1"></label>
+              <label class="field"><span>Biodiversity Value - Harv Belt ($/ha)</span><input type="number" name="biodiversityValueHarvBelt" step="1"></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="assumption-group">
+            <legend>Carbon Sequestration Values</legend>
+            <div class="field-grid four-col">
+              <label class="field"><span>Average Yield - Carb Block (green t/ha/yr)</span><input type="number" name="carbonYieldCarbBlock" step="0.1"></label>
+              <label class="field"><span>Average Yield - Carb Belt (green t/ha/yr)</span><input type="number" name="carbonYieldCarbBelt" step="0.1"></label>
+              <label class="field"><span>Average Yield - Bio Block (green t/ha/yr)</span><input type="number" name="carbonYieldBioBlock" step="0.1"></label>
+              <label class="field"><span>Average Yield - Harv Belt (green t/ha/yr)</span><input type="number" name="carbonYieldHarvBelt" step="0.1"></label>
+            </div>
+            <div class="field-grid">
+              <label class="field"><span>Carbon Price - Standard ($/t CO2e)</span><input type="number" name="carbonPriceBase" step="1"></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="assumption-group">
+            <legend>Biomass Harvesting</legend>
+            <div class="field-grid four-col">
+              <label class="field"><span>Average Yield - Carb Block (green t/ha/yr)</span><input type="number" name="biomassYieldCarbBlock" step="0.1"></label>
+              <label class="field"><span>Average Yield - Carb Belt (green t/ha/yr)</span><input type="number" name="biomassYieldCarbBelt" step="0.1"></label>
+              <label class="field"><span>Average Yield - Bio Block (green t/ha/yr)</span><input type="number" name="biomassYieldBioBlock" step="0.1"></label>
+              <label class="field"><span>Average Yield - Harv Belt (green t/ha/yr)</span><input type="number" name="biomassYieldHarvBelt" step="0.1"></label>
+            </div>
+            <div class="field-grid">
+              <label class="field"><span>Biomass Price - Standard ($/t green)</span><input type="number" name="biomassPriceBase" step="1"></label>
+              <label class="field"><span>Contract Cost ($/hr)</span><input type="number" name="costHarvestContractHr" step="1"></label>
+              <label class="field"><span>Harvest Rate (t/hr)</span><input type="number" name="harvestRateTHr" step="1"></label>
+              <label class="field"><span>Transport ($/t/km)</span><input type="number" name="costTransportPerTKm" step="1"></label>
+              <label class="field"><span>Transport Distance (km)</span><input type="number" name="transportDistanceKm" step="1"></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="assumption-group">
+            <legend>Micro-climate</legend>
+            <div class="field-grid">
+              <label class="field"><span>Production Increase - Central Wheatbelt (%)</span><input type="number" name="microIncreaseCentral" step="0.1"></label>
+              <label class="field"><span>Production Increase - Eastern Wheatbelt (%)</span><input type="number" name="microIncreaseEastern" step="0.1"></label>
+            </div>
+          </fieldset>
         </details>
       </form>
 

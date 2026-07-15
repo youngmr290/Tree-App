@@ -57,11 +57,28 @@ const DEFAULTS = {
   biomassYieldCarbBlock: 0,
   biomassYieldCarbBelt: 0,
   biomassYieldBioBlock: 0,
-  biomassYieldHarvBelt: 7.027767926229342,
+  biomassYieldHarvBelt: 7.0,
   biomassPriceBase: 50,
   microIncreaseCentral: 0.03,
   microIncreaseEastern: 0.052
 };
+
+const ONE_DECIMAL_FIELDS = new Set([
+  "carbonYieldCarbBlock",
+  "carbonYieldCarbBelt",
+  "carbonYieldBioBlock",
+  "carbonYieldHarvBelt",
+  "biomassYieldCarbBlock",
+  "biomassYieldCarbBelt",
+  "biomassYieldBioBlock",
+  "biomassYieldHarvBelt"
+]);
+
+const PERCENT_FIELDS = new Set([
+  "costMortality",
+  "microIncreaseCentral",
+  "microIncreaseEastern"
+]);
 
 const TABLES = {
   land: [
@@ -185,7 +202,7 @@ function parseInputs() {
     costFertBaseInit: toNum("costFertBaseInit"),
     costFertExtraInitHarvest: toNum("costFertExtraInitHarvest"),
     costSeedlings: toNum("costSeedlings"),
-    costMortality: toNum("costMortality"),
+    costMortality: toNum("costMortality") / 100,
     plantingRate: toNum("plantingRate"),
     costPlantingEquipPerDay: toNum("costPlantingEquipPerDay"),
     costPlantingLabourPerDay: toNum("costPlantingLabourPerDay"),
@@ -217,8 +234,8 @@ function parseInputs() {
     biomassYieldBioBlock: toNum("biomassYieldBioBlock"),
     biomassYieldHarvBelt: toNum("biomassYieldHarvBelt"),
     biomassPriceBase: toNum("biomassPriceBase"),
-    microIncreaseCentral: toNum("microIncreaseCentral"),
-    microIncreaseEastern: toNum("microIncreaseEastern")
+    microIncreaseCentral: toNum("microIncreaseCentral") / 100,
+    microIncreaseEastern: toNum("microIncreaseEastern") / 100
   };
 }
 
@@ -416,13 +433,23 @@ function validate(inputs) {
   if (!SOIL_OPTIONS.includes(inputs.soil)) return "Invalid soil option.";
   if (!AREA_OPTIONS.includes(inputs.area)) return "Planting area must be one of 1, 10 or 100 ha.";
   if (Object.values(inputs).some((v) => typeof v === "number" && Number.isNaN(v))) return "Please enter valid numbers.";
-  if (inputs.costMortality >= 1) return "Mortality must be below 1 (for example 0.1 = 10%).";
+  if (inputs.costMortality >= 1) return "Mortality must be below 100% (for example 10 = 10%).";
   if (inputs.harvestRateTHr <= 0 || inputs.plantingRate <= 0) return "Rates must be greater than zero.";
   return "";
 }
 
 function persist(inputs) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(inputs));
+}
+
+function toDisplayValue(key, value) {
+  if (PERCENT_FIELDS.has(key) && Number.isFinite(Number(value))) {
+    return Number(value) * 100;
+  }
+  if (ONE_DECIMAL_FIELDS.has(key) && Number.isFinite(Number(value))) {
+    return Number(value).toFixed(1);
+  }
+  return value;
 }
 
 function loadInputs() {
@@ -432,7 +459,7 @@ function loadInputs() {
     const el = form.elements[key];
     if (!el) continue;
     if (el.type === "checkbox") el.checked = Boolean(value);
-    else el.value = value;
+    else el.value = toDisplayValue(key, value);
   }
 }
 
@@ -462,13 +489,20 @@ document.querySelector("#reset-btn").addEventListener("click", () => {
     const el = form.elements[key];
     if (!el) continue;
     if (el.type === "checkbox") el.checked = Boolean(value);
-    else el.value = value;
+    else el.value = toDisplayValue(key, value);
   }
   recalc();
 });
 
 document.querySelector("#print-btn").addEventListener("click", () => window.print());
 form.addEventListener("input", recalc);
+form.addEventListener("change", (event) => {
+  const target = event.target;
+  if (!target || !target.name || !ONE_DECIMAL_FIELDS.has(target.name)) return;
+  const numeric = Number(target.value);
+  if (Number.isFinite(numeric)) target.value = numeric.toFixed(1);
+  recalc();
+});
 
 loadInputs();
 recalc();
