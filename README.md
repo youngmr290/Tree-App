@@ -1,12 +1,12 @@
-# NRM Handbook v2 Web Tool
+# Tree Handbook v2 Web Tool
 
-Static browser app that reproduces the `Guide` economics section from `Handbook v2.xlsx`.
+Static browser app that allows users to model the economics of trees on Wheatbelt farms.
 
 ## What It Covers
 
-- Scenario inputs from `Guide` (location, focus, soil, area, price scenarios, include toggles)
-- Orange assumption cells (costs, yields, prices, micro-climate percentages)
-- Results matching the Guide breakdown:
+- Scenario inputs (location, focus, soil, area, price scenarios, include toggles)
+- Assumption inputs (costs, yields, prices, micro-climate percentages)
+- Results breakdown:
   - Land opportunity cost
   - +trees
   - +livestock shelter
@@ -24,7 +24,6 @@ Static browser app that reproduces the `Guide` economics section from `Handbook 
 - `index.html` UI
 - `styles.css` styling
 - `app.js` workbook-mapped formulas and lookup tables
-- `Handbook v2.xlsx` reference workbook
 
 ## Run
 
