@@ -22,7 +22,12 @@ const DEFAULTS = {
   includeMicroclimate: true,
   includeErosion: true,
   includeSalinity: true,
-  salinityRate: 0.0089,
+  salinityAdditionalAreaCentral: 23,
+  salinityAdditionalAreaEastern: 43,
+  salinityRechargeAreaCentral: 230,
+  salinityRechargeAreaEastern: 430,
+  salinityRechargeInfluenceCentral: 3,
+  salinityRechargeInfluenceEastern: 3,
   costRippingMounding: 280,
   costInitialWeed: 54,
   costFertBaseInit: 0,
@@ -125,11 +130,8 @@ const TABLES = {
   micro: [
     ["Central wheatbelt", 8.90254124887262], ["Eastern wheatbelt", 25.54533396997188]
   ],
-  salinity: [
-    ["Central wheatbelt", -3444], ["Eastern wheatbelt", -3938]
-  ],
-  controlRecharge: [
-    ["Central wheatbelt", 16.137], ["Eastern wheatbelt", 12.331]
+  salinityCost: [
+    ["Central wheatbelt", 123], ["Eastern wheatbelt", 82]
   ],
   density: {
     "Carb Block": { trees: 512, shrubs: 0 },
@@ -164,14 +166,10 @@ const form = document.querySelector("#calculator-form");
 const validationEl = document.querySelector("#validation-message");
 const tableBody = document.querySelector("#results-body");
 const totalEl = document.querySelector("#total-impact");
-const rechargeEl = document.querySelector("#recharge-reduction");
+const regionInputs = document.querySelectorAll("[data-region]");
 
 function formatCurrency(value) {
   return new Intl.NumberFormat("en-AU", { style: "currency", currency: "AUD", maximumFractionDigits: 2 }).format(value);
-}
-
-function formatNumber(value, digits = 3) {
-  return Number(value).toLocaleString("en-AU", { minimumFractionDigits: 0, maximumFractionDigits: digits });
 }
 
 function crf(rate, years) {
@@ -198,7 +196,12 @@ function parseInputs() {
     includeMicroclimate: read("includeMicroclimate") === "on",
     includeErosion: read("includeErosion") === "on",
     includeSalinity: read("includeSalinity") === "on",
-    salinityRate: toNum("salinityRate"),
+    salinityAdditionalAreaCentral: toNum("salinityAdditionalAreaCentral"),
+    salinityAdditionalAreaEastern: toNum("salinityAdditionalAreaEastern"),
+    salinityRechargeAreaCentral: toNum("salinityRechargeAreaCentral"),
+    salinityRechargeAreaEastern: toNum("salinityRechargeAreaEastern"),
+    salinityRechargeInfluenceCentral: toNum("salinityRechargeInfluenceCentral"),
+    salinityRechargeInfluenceEastern: toNum("salinityRechargeInfluenceEastern"),
     costRippingMounding: toNum("costRippingMounding"),
     costInitialWeed: toNum("costInitialWeed"),
     costFertBaseInit: toNum("costFertBaseInit"),
@@ -265,14 +268,24 @@ function lookupMicro(inputs) {
   return base * scalar;
 }
 
-function lookupSalinity(inputs) {
-  const cost = TABLES.salinity.find((x) => x[0] === inputs.location)?.[1] ?? 0;
-  const rateScalar = inputs.salinityRate / DEFAULTS.salinityRate;
-  return (-cost * rateScalar) / inputs.area;
-}
+function calcSalinity(inputs) {
+  if (!inputs.includeSalinity) return 0;
 
-function lookupRecharge(inputs) {
-  return TABLES.controlRecharge.find((x) => x[0] === inputs.location)?.[1] ?? 0;
+  const isCentral = inputs.location === "Central wheatbelt";
+  const salinityCost = TABLES.salinityCost.find((row) => row[0] === inputs.location)?.[1] ?? 0;
+  const additionalSalineArea = isCentral
+    ? inputs.salinityAdditionalAreaCentral
+    : inputs.salinityAdditionalAreaEastern;
+  const contributingRechargeArea = isCentral ? inputs.salinityRechargeAreaCentral : inputs.salinityRechargeAreaEastern;
+  const rechargeInfluencePerHa = isCentral
+    ? inputs.salinityRechargeInfluenceCentral
+    : inputs.salinityRechargeInfluenceEastern;
+  const influencedRechargeShare = Math.min(
+    1,
+    (inputs.area * rechargeInfluencePerHa) / contributingRechargeArea
+  );
+
+  return (additionalSalineArea * salinityCost * influencedRechargeShare) / inputs.area;
 }
 
 function carbonPrice(inputs) {
@@ -409,8 +422,7 @@ function compute(inputs) {
   const biomass = calcBiomass(inputs);
   const microclimate = inputs.includeMicroclimate ? lookupMicro(inputs) : 0;
   const erosion = inputs.includeErosion ? lookupErosion(inputs) : 0;
-  const salinity = inputs.includeSalinity ? lookupSalinity(inputs) : 0;
-  const recharge = lookupRecharge(inputs);
+  const salinity = calcSalinity(inputs);
 
   const rows = [
     ["Land opportunity cost", landOpportunity],
@@ -426,7 +438,7 @@ function compute(inputs) {
   ];
 
   const total = rows.reduce((sum, row) => sum + row[1], 0);
-  return { total, recharge, rows };
+  return { total, rows };
 }
 
 function validate(inputs) {
@@ -437,6 +449,13 @@ function validate(inputs) {
   if (Object.values(inputs).some((v) => typeof v === "number" && Number.isNaN(v))) return "Please enter valid numbers.";
   if (inputs.costMortality >= 1) return "Mortality must be below 100% (for example 10 = 10%).";
   if (inputs.harvestRateTHr <= 0 || inputs.plantingRate <= 0) return "Rates must be greater than zero.";
+  const isCentral = inputs.location === "Central wheatbelt";
+  const salinityAssumptions = isCentral
+    ? [inputs.salinityAdditionalAreaCentral, inputs.salinityRechargeInfluenceCentral]
+    : [inputs.salinityAdditionalAreaEastern, inputs.salinityRechargeInfluenceEastern];
+  if (salinityAssumptions.some((value) => value < 0)) return "Salinity assumptions cannot be negative.";
+  const salinityRechargeArea = isCentral ? inputs.salinityRechargeAreaCentral : inputs.salinityRechargeAreaEastern;
+  if (salinityRechargeArea <= 0) return "Salinity recharge area must be greater than zero.";
   return "";
 }
 
@@ -468,9 +487,15 @@ function loadInputs() {
   }
 }
 
+function updateRegionInputs() {
+  const selectedRegion = form.elements.location.value;
+  regionInputs.forEach((element) => {
+    element.hidden = element.dataset.region !== selectedRegion;
+  });
+}
+
 function render(result) {
   totalEl.textContent = formatCurrency(result.total);
-  rechargeEl.textContent = `${formatNumber(result.recharge, 3)} mm`;
   tableBody.innerHTML = "";
   result.rows.forEach(([label, value]) => {
     const tr = document.createElement("tr");
@@ -496,18 +521,25 @@ document.querySelector("#reset-btn").addEventListener("click", () => {
     if (el.type === "checkbox") el.checked = Boolean(value);
     else el.value = toDisplayValue(key, value);
   }
+  updateRegionInputs();
   recalc();
 });
 
 document.querySelector("#print-btn").addEventListener("click", () => window.print());
-form.addEventListener("input", recalc);
+form.addEventListener("input", (event) => {
+  if (event.target?.name === "location") updateRegionInputs();
+  recalc();
+});
 form.addEventListener("change", (event) => {
   const target = event.target;
-  if (!target || !target.name || !ONE_DECIMAL_FIELDS.has(target.name)) return;
+  if (!target || !target.name) return;
+  if (target.name === "location") updateRegionInputs();
+  if (!ONE_DECIMAL_FIELDS.has(target.name)) return;
   const numeric = Number(target.value);
   if (Number.isFinite(numeric)) target.value = numeric.toFixed(1);
   recalc();
 });
 
 loadInputs();
+updateRegionInputs();
 recalc();

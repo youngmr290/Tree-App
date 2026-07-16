@@ -86,8 +86,8 @@
         </article>
         <article class="background-card">
           <h3>Groundwater and Salinity</h3>
-          <p>Deep-rooted vegetation can reduce groundwater recharge and help limit saline groundwater rise when plantings are strategically located. In some landscapes, significant revegetation may be needed to materially affect salinity spread.</p>
-          <p>Quantifying the benefits of tree establishment for salinity mitigation is challenging and case-specific. The following approach attempts to generalise the quantification of economic benefits. Following Flugge et al. (2006), the baseline rate of salinity spread is assumed to be 0.89% per year under standard management. Where trees are established, salinity expansion is assumed to decline in direct proportion to the reduction in groundwater recharge, allowing the economic benefit of avoided future salinity impacts to be estimated.</p>
+          <p>Deep-rooted vegetation can reduce groundwater recharge and help limit the rise of saline groundwater when plantings are strategically located within contributing recharge areas. However, the magnitude and timing of the salinity benefit are highly site-specific, and substantial revegetation may be required before a measurable reduction in salinity spread occurs.</p>
+          <p>This tool assumes that salinity expands by 23 ha/year in the Central Wheatbelt and 43 ha/year in the Eastern Wheatbelt. The annual cost of saline land is valued at $123/ha in the Central Wheatbelt and $82/ha in the Eastern Wheatbelt. Tree planting in recharge zones reduces this expansion in proportion to the contributing recharge area influenced. WA Wheatbelt modelling found recharge reductions of about three to ten times the area occupied by oil-mallee canopy (Bennett et al. 2012).</p>
         </article>
         <article class="background-card">
           <h3>Erosion</h3>
@@ -115,7 +115,6 @@
           <label class="field"><span>Carbon price scenario</span><select name="carbonPriceScenario"><option>Low (-50%)</option><option>Standard</option><option>High (+50%)</option></select></label>
           <label class="field"><span>Biodiversity price scenario</span><select name="biodiversityPriceScenario"><option>Low -50%</option><option>Standard</option><option>High +50%</option></select></label>
           <label class="field"><span>Biomass price scenario</span><select name="biomassPriceScenario"><option>Low -50%</option><option>Standard</option><option>High +50%</option></select></label>
-          <label class="field"><span>Salinity spread rate</span><input type="number" name="salinityRate" step="0.0001"></label>
         </div>
 
         <div class="check-grid">
@@ -225,8 +224,20 @@
           <fieldset class="assumption-group">
             <legend>Micro-climate</legend>
             <div class="field-grid">
-              <label class="field"><span>Production Increase - Central Wheatbelt (%)</span><input type="number" name="microIncreaseCentral" step="0.1"></label>
-              <label class="field"><span>Production Increase - Eastern Wheatbelt (%)</span><input type="number" name="microIncreaseEastern" step="0.1"></label>
+              <label class="field region-input" data-region="Central wheatbelt"><span>Production Increase (%)</span><input type="number" name="microIncreaseCentral" step="0.1"></label>
+              <label class="field region-input" data-region="Eastern wheatbelt"><span>Production Increase (%)</span><input type="number" name="microIncreaseEastern" step="0.1"></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="assumption-group">
+            <legend>Salinity Benefits</legend>
+            <div class="field-grid">
+              <label class="field region-input" data-region="Central wheatbelt"><span>Additional Saline Area (ha/year)</span><input type="number" name="salinityAdditionalAreaCentral" step="1"></label>
+              <label class="field region-input" data-region="Eastern wheatbelt"><span>Additional Saline Area (ha/year)</span><input type="number" name="salinityAdditionalAreaEastern" step="1"></label>
+              <label class="field region-input" data-region="Central wheatbelt"><span>Contributing Recharge Area (ha)</span><input type="number" name="salinityRechargeAreaCentral" step="1"></label>
+              <label class="field region-input" data-region="Eastern wheatbelt"><span>Contributing Recharge Area (ha)</span><input type="number" name="salinityRechargeAreaEastern" step="1"></label>
+              <label class="field region-input" data-region="Central wheatbelt"><span>Recharge Area Influenced per ha of Trees (ha)</span><input type="number" name="salinityRechargeInfluenceCentral" step="0.1"></label>
+              <label class="field region-input" data-region="Eastern wheatbelt"><span>Recharge Area Influenced per ha of Trees (ha)</span><input type="number" name="salinityRechargeInfluenceEastern" step="0.1"></label>
             </div>
           </fieldset>
         </details>
@@ -245,10 +256,6 @@
         <article class="result-card">
           <p class="label">Economic impact ($/ha of trees/year)</p>
           <p id="total-impact" class="value">$0</p>
-        </article>
-        <article class="result-card">
-          <p class="label">Reduction in wholefarm groundwater discharge</p>
-          <p id="recharge-reduction" class="value">0 mm</p>
         </article>
       </div>
       <div class="table-wrap">

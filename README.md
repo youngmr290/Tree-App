@@ -17,7 +17,7 @@ Static browser app that reproduces the `Guide` economics section from `Handbook 
   - +micro-climate
   - +increased grazing
   - +reduced salinity spread
-- Total economic impact and recharge metric
+- Total annualised economic impact
 
 ## Files
 
@@ -34,4 +34,3 @@ Open `index.html` directly, or serve as static files.
 
 - Browser-only persistence via `localStorage` key: `nrm_handbook_v2_inputs`
 - No backend and no cloud sync
-
