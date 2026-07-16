@@ -66,6 +66,7 @@
           <h3>Carbon Sequestration</h3>
           <p>Planting trees can sequester carbon. Projects registered under the ACCU Scheme can generate tradable carbon credits (ACCUs).</p>
           <p>Once generated, credits can be sold, held as a future asset, or inset on-farm to offset farm emissions. Establishing a carbon project can also involve monitoring, administration, and compliance costs.</p>
+          <p>The calculation applies land management unit (LMU) scalars: good soils use 1.00, while poor soils use 0.70 in the Central Wheatbelt and 0.845 in the Eastern Wheatbelt. A further 5% risk deduction is applied.</p>
         </article>
         <article class="background-card">
           <h3>Biodiversity</h3>
@@ -77,6 +78,7 @@
           <h3>Biomass Production</h3>
           <p>Above-ground biomass can be harvested and sold for clean energy and biofuel pathways (for example, via pyrolysis).</p>
           <p>Costs can include harvesting, on-farm handling, and road transport to processing facilities.</p>
+          <p>The calculation applies LMU scalars: good soils use 1.00, while poor soils use 0.39 in the Central Wheatbelt and 0.69 in the Eastern Wheatbelt.</p>
         </article>
         <article class="background-card">
           <h3>Micro-climate</h3>
@@ -98,8 +100,28 @@
       </div>
       <article class="background-card model-note">
         <h3>Quantifying Whole-Farm Interactions</h3>
-        <p>The physical effects of livestock shelter, adjacent pasture and crop production, salinity, erosion, and micro-climate are converted into annual economic values using AFO (Australian Farm Optimisation) model, an advanced whole-farm bio-economic optimisation model.</p>
+        <p>The physical effects of livestock shelter, adjacent pasture and crop production, salinity, erosion, and micro-climate are converted into annual economic values using the Australian Farm Optimisation (AFO) model, an advanced whole-farm bio-economic optimisation model.</p>
         <p>This tool uses AFO-derived values for the relevant location, soil, planting design, and planting area. It does not run the full AFO model in the browser.</p>
+        <details class="interaction-details">
+          <summary>View AFO-derived values and how they are applied</summary>
+          <div class="table-wrap interaction-table-wrap">
+            <table class="interaction-table">
+              <thead>
+                <tr><th>Interaction</th><th>Embedded AFO output</th><th>Varies by</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Land opportunity cost</td><td>$23-$171.40/ha of trees/year</td><td>Region, soil and planting area</td></tr>
+                <tr><td>Livestock shelter</td><td>$0-$11.75/ha of trees/year benefit</td><td>Region, planting design, soil and area</td></tr>
+                <tr><td>Adjacent production</td><td>$13-$384/ha of trees/year cost</td><td>Region, planting design and soil</td></tr>
+                <tr><td>Micro-climate</td><td>Central $8.90; Eastern $25.55/ha of trees/year benefit</td><td>Region and production-increase assumption</td></tr>
+                <tr><td>Erosion/increased grazing</td><td>$0-$27.24/ha of trees/year benefit</td><td>Region and planting design; blocks receive zero</td></tr>
+                <tr><td>Cost of saline land</td><td>Central $123; Eastern $82/ha of saline land/year</td><td>Region</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Land opportunity cost and adjacent production impacts are included directly in every scenario. Shelter, micro-climate, erosion and salinity benefits can be switched on or off by the user.</p>
+          <p>Land, shelter, adjacent production, micro-climate and erosion values are already expressed per hectare of trees per year. The cost of saline land is instead combined with the additional saline area and the share of its contributing recharge area influenced by trees.</p>
+        </details>
         <p><a href="https://farmoptimisation.com/advanced-farm-planning/" target="_blank" rel="noopener noreferrer">Learn more about Farm Optimiser and whole-farm optimisation</a>.</p>
       </article>
     </section>
@@ -194,10 +216,14 @@
           <fieldset class="assumption-group">
             <legend>Carbon Sequestration Values</legend>
             <div class="field-grid four-col">
-              <label class="field"><span>Average Yield - Carb Block (green t/ha/yr)</span><input type="number" name="carbonYieldCarbBlock" step="0.1"></label>
-              <label class="field"><span>Average Yield - Carb Belt (green t/ha/yr)</span><input type="number" name="carbonYieldCarbBelt" step="0.1"></label>
-              <label class="field"><span>Average Yield - Bio Block (green t/ha/yr)</span><input type="number" name="carbonYieldBioBlock" step="0.1"></label>
-              <label class="field"><span>Average Yield - Harv Belt (green t/ha/yr)</span><input type="number" name="carbonYieldHarvBelt" step="0.1"></label>
+              <label class="field region-input" data-region="Central wheatbelt"><span>Average Yield - Carb Block (t CO2e/ha/yr)</span><input type="number" name="carbonYieldCarbBlockCentral" step="0.01"></label>
+              <label class="field region-input" data-region="Eastern wheatbelt"><span>Average Yield - Carb Block (t CO2e/ha/yr)</span><input type="number" name="carbonYieldCarbBlockEastern" step="0.01"></label>
+              <label class="field region-input" data-region="Central wheatbelt"><span>Average Yield - Carb Belt (t CO2e/ha/yr)</span><input type="number" name="carbonYieldCarbBeltCentral" step="0.01"></label>
+              <label class="field region-input" data-region="Eastern wheatbelt"><span>Average Yield - Carb Belt (t CO2e/ha/yr)</span><input type="number" name="carbonYieldCarbBeltEastern" step="0.01"></label>
+              <label class="field region-input" data-region="Central wheatbelt"><span>Average Yield - Bio Block (t CO2e/ha/yr)</span><input type="number" name="carbonYieldBioBlockCentral" step="0.01"></label>
+              <label class="field region-input" data-region="Eastern wheatbelt"><span>Average Yield - Bio Block (t CO2e/ha/yr)</span><input type="number" name="carbonYieldBioBlockEastern" step="0.01"></label>
+              <label class="field region-input" data-region="Central wheatbelt"><span>Average Yield - Harv Belt (t CO2e/ha/yr)</span><input type="number" name="carbonYieldHarvBeltCentral" step="0.01"></label>
+              <label class="field region-input" data-region="Eastern wheatbelt"><span>Average Yield - Harv Belt (t CO2e/ha/yr)</span><input type="number" name="carbonYieldHarvBeltEastern" step="0.01"></label>
             </div>
             <div class="field-grid">
               <label class="field"><span>Carbon Price - Standard ($/t CO2e)</span><input type="number" name="carbonPriceBase" step="1"></label>
@@ -207,10 +233,14 @@
           <fieldset class="assumption-group">
             <legend>Biomass Harvesting</legend>
             <div class="field-grid four-col">
-              <label class="field"><span>Average Yield - Carb Block (green t/ha/yr)</span><input type="number" name="biomassYieldCarbBlock" step="0.1"></label>
-              <label class="field"><span>Average Yield - Carb Belt (green t/ha/yr)</span><input type="number" name="biomassYieldCarbBelt" step="0.1"></label>
-              <label class="field"><span>Average Yield - Bio Block (green t/ha/yr)</span><input type="number" name="biomassYieldBioBlock" step="0.1"></label>
-              <label class="field"><span>Average Yield - Harv Belt (green t/ha/yr)</span><input type="number" name="biomassYieldHarvBelt" step="0.1"></label>
+              <label class="field region-input" data-region="Central wheatbelt"><span>Average Yield - Carb Block (green t/ha/yr)</span><input type="number" name="biomassYieldCarbBlockCentral" step="0.01"></label>
+              <label class="field region-input" data-region="Eastern wheatbelt"><span>Average Yield - Carb Block (green t/ha/yr)</span><input type="number" name="biomassYieldCarbBlockEastern" step="0.01"></label>
+              <label class="field region-input" data-region="Central wheatbelt"><span>Average Yield - Carb Belt (green t/ha/yr)</span><input type="number" name="biomassYieldCarbBeltCentral" step="0.01"></label>
+              <label class="field region-input" data-region="Eastern wheatbelt"><span>Average Yield - Carb Belt (green t/ha/yr)</span><input type="number" name="biomassYieldCarbBeltEastern" step="0.01"></label>
+              <label class="field region-input" data-region="Central wheatbelt"><span>Average Yield - Bio Block (green t/ha/yr)</span><input type="number" name="biomassYieldBioBlockCentral" step="0.01"></label>
+              <label class="field region-input" data-region="Eastern wheatbelt"><span>Average Yield - Bio Block (green t/ha/yr)</span><input type="number" name="biomassYieldBioBlockEastern" step="0.01"></label>
+              <label class="field region-input" data-region="Central wheatbelt"><span>Average Yield - Harv Belt (green t/ha/yr)</span><input type="number" name="biomassYieldHarvBeltCentral" step="0.01"></label>
+              <label class="field region-input" data-region="Eastern wheatbelt"><span>Average Yield - Harv Belt (green t/ha/yr)</span><input type="number" name="biomassYieldHarvBeltEastern" step="0.01"></label>
             </div>
             <div class="field-grid">
               <label class="field"><span>Biomass Price - Standard ($/t green)</span><input type="number" name="biomassPriceBase" step="1"></label>

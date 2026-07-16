@@ -51,33 +51,49 @@ const DEFAULTS = {
   harvestRateTHr: 40,
   costTransportPerTKm: 0.15,
   transportDistanceKm: 60,
-  carbonYieldCarbBlock: 7.43,
-  carbonYieldCarbBelt: 10.4,
-  carbonYieldBioBlock: 4.14,
-  carbonYieldHarvBelt: 4.04,
+  carbonYieldCarbBlockCentral: 7.43,
+  carbonYieldCarbBeltCentral: 10.4,
+  carbonYieldBioBlockCentral: 4.14,
+  carbonYieldHarvBeltCentral: 4.04,
+  carbonYieldCarbBlockEastern: 4.76,
+  carbonYieldCarbBeltEastern: 6.66,
+  carbonYieldBioBlockEastern: 2.65,
+  carbonYieldHarvBeltEastern: 2.59,
   carbonPriceBase: 40,
   biodiversityValueCarbBlock: 17000,
   biodiversityValueCarbBelt: 8500,
   biodiversityValueBioBlock: 22500,
   biodiversityValueHarvBelt: 4500,
-  biomassYieldCarbBlock: 0,
-  biomassYieldCarbBelt: 0,
-  biomassYieldBioBlock: 0,
-  biomassYieldHarvBelt: 7.0,
+  biomassYieldCarbBlockCentral: 0,
+  biomassYieldCarbBeltCentral: 0,
+  biomassYieldBioBlockCentral: 0,
+  biomassYieldHarvBeltCentral: 7.0,
+  biomassYieldCarbBlockEastern: 0,
+  biomassYieldCarbBeltEastern: 0,
+  biomassYieldBioBlockEastern: 0,
+  biomassYieldHarvBeltEastern: 4.48,
   biomassPriceBase: 50,
   microIncreaseCentral: 0.03,
   microIncreaseEastern: 0.052
 };
 
-const ONE_DECIMAL_FIELDS = new Set([
-  "carbonYieldCarbBlock",
-  "carbonYieldCarbBelt",
-  "carbonYieldBioBlock",
-  "carbonYieldHarvBelt",
-  "biomassYieldCarbBlock",
-  "biomassYieldCarbBelt",
-  "biomassYieldBioBlock",
-  "biomassYieldHarvBelt"
+const TWO_DECIMAL_FIELDS = new Set([
+  "carbonYieldCarbBlockCentral",
+  "carbonYieldCarbBeltCentral",
+  "carbonYieldBioBlockCentral",
+  "carbonYieldHarvBeltCentral",
+  "carbonYieldCarbBlockEastern",
+  "carbonYieldCarbBeltEastern",
+  "carbonYieldBioBlockEastern",
+  "carbonYieldHarvBeltEastern",
+  "biomassYieldCarbBlockCentral",
+  "biomassYieldCarbBeltCentral",
+  "biomassYieldBioBlockCentral",
+  "biomassYieldHarvBeltCentral",
+  "biomassYieldCarbBlockEastern",
+  "biomassYieldCarbBeltEastern",
+  "biomassYieldBioBlockEastern",
+  "biomassYieldHarvBeltEastern"
 ]);
 
 const PERCENT_FIELDS = new Set([
@@ -225,19 +241,27 @@ function parseInputs() {
     harvestRateTHr: toNum("harvestRateTHr"),
     costTransportPerTKm: toNum("costTransportPerTKm"),
     transportDistanceKm: toNum("transportDistanceKm"),
-    carbonYieldCarbBlock: toNum("carbonYieldCarbBlock"),
-    carbonYieldCarbBelt: toNum("carbonYieldCarbBelt"),
-    carbonYieldBioBlock: toNum("carbonYieldBioBlock"),
-    carbonYieldHarvBelt: toNum("carbonYieldHarvBelt"),
+    carbonYieldCarbBlockCentral: toNum("carbonYieldCarbBlockCentral"),
+    carbonYieldCarbBeltCentral: toNum("carbonYieldCarbBeltCentral"),
+    carbonYieldBioBlockCentral: toNum("carbonYieldBioBlockCentral"),
+    carbonYieldHarvBeltCentral: toNum("carbonYieldHarvBeltCentral"),
+    carbonYieldCarbBlockEastern: toNum("carbonYieldCarbBlockEastern"),
+    carbonYieldCarbBeltEastern: toNum("carbonYieldCarbBeltEastern"),
+    carbonYieldBioBlockEastern: toNum("carbonYieldBioBlockEastern"),
+    carbonYieldHarvBeltEastern: toNum("carbonYieldHarvBeltEastern"),
     carbonPriceBase: toNum("carbonPriceBase"),
     biodiversityValueCarbBlock: toNum("biodiversityValueCarbBlock"),
     biodiversityValueCarbBelt: toNum("biodiversityValueCarbBelt"),
     biodiversityValueBioBlock: toNum("biodiversityValueBioBlock"),
     biodiversityValueHarvBelt: toNum("biodiversityValueHarvBelt"),
-    biomassYieldCarbBlock: toNum("biomassYieldCarbBlock"),
-    biomassYieldCarbBelt: toNum("biomassYieldCarbBelt"),
-    biomassYieldBioBlock: toNum("biomassYieldBioBlock"),
-    biomassYieldHarvBelt: toNum("biomassYieldHarvBelt"),
+    biomassYieldCarbBlockCentral: toNum("biomassYieldCarbBlockCentral"),
+    biomassYieldCarbBeltCentral: toNum("biomassYieldCarbBeltCentral"),
+    biomassYieldBioBlockCentral: toNum("biomassYieldBioBlockCentral"),
+    biomassYieldHarvBeltCentral: toNum("biomassYieldHarvBeltCentral"),
+    biomassYieldCarbBlockEastern: toNum("biomassYieldCarbBlockEastern"),
+    biomassYieldCarbBeltEastern: toNum("biomassYieldCarbBeltEastern"),
+    biomassYieldBioBlockEastern: toNum("biomassYieldBioBlockEastern"),
+    biomassYieldHarvBeltEastern: toNum("biomassYieldHarvBeltEastern"),
     biomassPriceBase: toNum("biomassPriceBase"),
     microIncreaseCentral: toNum("microIncreaseCentral") / 100,
     microIncreaseEastern: toNum("microIncreaseEastern") / 100
@@ -245,7 +269,8 @@ function parseInputs() {
 }
 
 function lookupLand(inputs) {
-  return TABLES.land.find((x) => x[0] === inputs.location && x[1] === inputs.soil && x[2] === inputs.area)?.[3] ?? 0;
+  const cost = TABLES.land.find((x) => x[0] === inputs.location && x[1] === inputs.soil && x[2] === inputs.area)?.[3] ?? 0;
+  return -cost;
 }
 
 function lookupShelter(inputs) {
@@ -301,20 +326,37 @@ function multiplierChoice(choice) {
 }
 
 function scenarioYield(inputs, mode, focus) {
+  const isCentral = inputs.location === "Central wheatbelt";
   if (mode === "carbon") {
-    return {
-      "Carb Block": inputs.carbonYieldCarbBlock,
-      "Carb Belt": inputs.carbonYieldCarbBelt,
-      "Bio Block": inputs.carbonYieldBioBlock,
-      "Harv Belt": inputs.carbonYieldHarvBelt
-    }[focus];
+    const yields = isCentral
+      ? {
+          "Carb Block": inputs.carbonYieldCarbBlockCentral,
+          "Carb Belt": inputs.carbonYieldCarbBeltCentral,
+          "Bio Block": inputs.carbonYieldBioBlockCentral,
+          "Harv Belt": inputs.carbonYieldHarvBeltCentral
+        }
+      : {
+          "Carb Block": inputs.carbonYieldCarbBlockEastern,
+          "Carb Belt": inputs.carbonYieldCarbBeltEastern,
+          "Bio Block": inputs.carbonYieldBioBlockEastern,
+          "Harv Belt": inputs.carbonYieldHarvBeltEastern
+        };
+    return yields[focus];
   }
-  return {
-    "Carb Block": inputs.biomassYieldCarbBlock,
-    "Carb Belt": inputs.biomassYieldCarbBelt,
-    "Bio Block": inputs.biomassYieldBioBlock,
-    "Harv Belt": inputs.biomassYieldHarvBelt
-  }[focus];
+  const yields = isCentral
+    ? {
+        "Carb Block": inputs.biomassYieldCarbBlockCentral,
+        "Carb Belt": inputs.biomassYieldCarbBeltCentral,
+        "Bio Block": inputs.biomassYieldBioBlockCentral,
+        "Harv Belt": inputs.biomassYieldHarvBeltCentral
+      }
+    : {
+        "Carb Block": inputs.biomassYieldCarbBlockEastern,
+        "Carb Belt": inputs.biomassYieldCarbBeltEastern,
+        "Bio Block": inputs.biomassYieldBioBlockEastern,
+        "Harv Belt": inputs.biomassYieldHarvBeltEastern
+      };
+  return yields[focus];
 }
 
 function calcTrees(inputs) {
@@ -344,7 +386,6 @@ function calcCarbon(inputs) {
   const profile = TABLES.carbonProfiles[focus];
   const avg = TABLES.carbonProfileAvg[focus];
   const yieldValue = scenarioYield(inputs, "carbon", focus);
-  const regional = inputs.location === "Central wheatbelt" ? 1 : 0.64;
   const lmu = inputs.soil === "Good" ? 1 : (inputs.location === "Central wheatbelt" ? 0.7 : 0.845);
   const risk = 0.05;
   const fuelFactor = 2.7 + 0.002123 + 0.01351;
@@ -356,7 +397,7 @@ function calcCarbon(inputs) {
   let pv = 0;
   for (let year = 0; year <= 25; year += 1) {
     const baseSeq = profile[year] * (avg === 0 ? 0 : yieldValue / avg);
-    const adjustedSeq = baseSeq * (1 - risk) * regional * lmu;
+    const adjustedSeq = baseSeq * (1 - risk) * lmu;
     const fuelUse = year === 0 ? 40 : year === 1 ? 8 : 0;
     const fuelCo2 = fuelUse * fuelFactor;
     const income = ((adjustedSeq - fuelCo2) / 1000) * price;
@@ -391,7 +432,6 @@ function calcBiomass(inputs) {
   const profile = TABLES.biomassProfiles[focus];
   const avg = TABLES.biomassProfileAvg[focus];
   const yieldValue = scenarioYield(inputs, "biomass", focus);
-  const regional = inputs.location === "Central wheatbelt" ? 1 : 0.64;
   const lmu = inputs.soil === "Good" ? 1 : (inputs.location === "Central wheatbelt" ? 0.39 : 0.69);
   const price = inputs.biomassPriceBase * multiplierChoice(inputs.biomassPriceScenario);
   const costPerTonne = (inputs.costHarvestContractHr / inputs.harvestRateTHr) + (inputs.costTransportPerTKm * inputs.transportDistanceKm);
@@ -401,7 +441,7 @@ function calcBiomass(inputs) {
   let npvCost = 0;
   for (let year = 0; year <= 25; year += 1) {
     const base = profile[year] * (avg === 0 ? 0 : yieldValue / avg);
-    const adjusted = base * regional * lmu;
+    const adjusted = base * lmu;
     const income = adjusted * price;
     const cost = adjusted * costPerTonne;
     const df = 1 / ((1 + discount) ** year);
@@ -470,15 +510,40 @@ function toDisplayValue(key, value) {
   if (PERCENT_FIELDS.has(key) && Number.isFinite(Number(value))) {
     return Number(value) * 100;
   }
-  if (ONE_DECIMAL_FIELDS.has(key) && Number.isFinite(Number(value))) {
-    return Number(value).toFixed(1);
+  if (TWO_DECIMAL_FIELDS.has(key) && Number.isFinite(Number(value))) {
+    return Number(value).toFixed(2);
   }
   return value;
 }
 
+function migrateRegionalYields(saved) {
+  const migrated = { ...saved };
+  const hasOwn = (key) => Object.prototype.hasOwnProperty.call(saved, key);
+  const yieldFields = [
+    ["carbonYieldCarbBlock", "carbonYieldCarbBlockCentral", "carbonYieldCarbBlockEastern"],
+    ["carbonYieldCarbBelt", "carbonYieldCarbBeltCentral", "carbonYieldCarbBeltEastern"],
+    ["carbonYieldBioBlock", "carbonYieldBioBlockCentral", "carbonYieldBioBlockEastern"],
+    ["carbonYieldHarvBelt", "carbonYieldHarvBeltCentral", "carbonYieldHarvBeltEastern"],
+    ["biomassYieldCarbBlock", "biomassYieldCarbBlockCentral", "biomassYieldCarbBlockEastern"],
+    ["biomassYieldCarbBelt", "biomassYieldCarbBeltCentral", "biomassYieldCarbBeltEastern"],
+    ["biomassYieldBioBlock", "biomassYieldBioBlockCentral", "biomassYieldBioBlockEastern"],
+    ["biomassYieldHarvBelt", "biomassYieldHarvBeltCentral", "biomassYieldHarvBeltEastern"]
+  ];
+
+  yieldFields.forEach(([legacyKey, centralKey, easternKey]) => {
+    if (!hasOwn(legacyKey)) return;
+    const legacyValue = Number(saved[legacyKey]);
+    if (!hasOwn(centralKey)) migrated[centralKey] = legacyValue;
+    if (!hasOwn(easternKey)) migrated[easternKey] = Number((legacyValue * 0.64).toFixed(2));
+    delete migrated[legacyKey];
+  });
+  return migrated;
+}
+
 function loadInputs() {
   const raw = localStorage.getItem(STORAGE_KEY);
-  const merged = raw ? { ...DEFAULTS, ...JSON.parse(raw) } : DEFAULTS;
+  const saved = raw ? migrateRegionalYields(JSON.parse(raw)) : {};
+  const merged = { ...DEFAULTS, ...saved };
   for (const [key, value] of Object.entries(merged)) {
     const el = form.elements[key];
     if (!el) continue;
@@ -534,9 +599,9 @@ form.addEventListener("change", (event) => {
   const target = event.target;
   if (!target || !target.name) return;
   if (target.name === "location") updateRegionInputs();
-  if (!ONE_DECIMAL_FIELDS.has(target.name)) return;
+  if (!TWO_DECIMAL_FIELDS.has(target.name)) return;
   const numeric = Number(target.value);
-  if (Number.isFinite(numeric)) target.value = numeric.toFixed(1);
+  if (Number.isFinite(numeric)) target.value = numeric.toFixed(2);
   recalc();
 });
 

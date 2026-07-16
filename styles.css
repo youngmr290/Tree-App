@@ -97,6 +97,18 @@ h2 {
   margin-top: 1rem;
 }
 
+.interaction-table-wrap {
+  margin-top: 0.85rem;
+}
+
+.interaction-table {
+  min-width: 720px;
+}
+
+.interaction-details {
+  margin-top: 0.85rem;
+}
+
 .inline-figure {
   margin: 0.7rem 0 0;
 }
