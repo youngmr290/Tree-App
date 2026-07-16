@@ -87,7 +87,7 @@
         <article class="background-card">
           <h3>Groundwater and Salinity</h3>
           <p>Deep-rooted vegetation can reduce groundwater recharge and help limit saline groundwater rise when plantings are strategically located. In some landscapes, significant revegetation may be needed to materially affect salinity spread.</p>
-          <p>Following Flugge et al. (2006), the baseline rate of salinity spread is assumed to be 0.89% per year under standard management. Where trees are established, salinity expansion is assumed to decline in direct proportion to the reduction in groundwater recharge, allowing estimation of the economic benefit from avoided future salinity impacts.</p>
+          <p>Quantifying the benefits of tree establishment for salinity mitigation is challenging and case-specific. The following approach attempts to generalise the quantification of economic benefits. Following Flugge et al. (2006), the baseline rate of salinity spread is assumed to be 0.89% per year under standard management. Where trees are established, salinity expansion is assumed to decline in direct proportion to the reduction in groundwater recharge, allowing the economic benefit of avoided future salinity impacts to be estimated.</p>
         </article>
         <article class="background-card">
           <h3>Erosion</h3>
@@ -96,6 +96,12 @@
           <p>The value benefit was estimated based on reduced erosion risk allowing an additional 250 kg DM per hectare to be grazed.</p>
         </article>
       </div>
+      <article class="background-card model-note">
+        <h3>Quantifying Whole-Farm Interactions</h3>
+        <p>The physical effects of livestock shelter, adjacent pasture and crop production, salinity, erosion, and micro-climate are converted into annual economic values using AFO (Australian Farm Optimisation) model, an advanced whole-farm bio-economic optimisation model.</p>
+        <p>This tool uses AFO-derived values for the relevant location, soil, planting design, and planting area. It does not run the full AFO model in the browser.</p>
+        <p><a href="https://farmoptimisation.com/advanced-farm-planning/" target="_blank" rel="noopener noreferrer">Learn more about Farm Optimiser and whole-farm optimisation</a>.</p>
+      </article>
     </section>
 
     <section class="panel">
@@ -107,8 +113,8 @@
           <label class="field"><span>Soil</span><select name="soil"><option>Poor</option><option>Good</option></select></label>
           <label class="field"><span>Planting area (ha)</span><select name="area"><option value="1">1</option><option value="10">10</option><option value="100">100</option></select></label>
           <label class="field"><span>Carbon price scenario</span><select name="carbonPriceScenario"><option>Low (-50%)</option><option>Standard</option><option>High (+50%)</option></select></label>
-          <label class="field"><span>Biodiversity price scenario</span><select name="biodiversityPriceScenario"><option>Low -50%</option><option>Standard</option><option>Low +50%</option></select></label>
-          <label class="field"><span>Biomass price scenario</span><select name="biomassPriceScenario"><option>Low -50%</option><option>Standard</option><option>Low +50%</option></select></label>
+          <label class="field"><span>Biodiversity price scenario</span><select name="biodiversityPriceScenario"><option>Low -50%</option><option>Standard</option><option>High +50%</option></select></label>
+          <label class="field"><span>Biomass price scenario</span><select name="biomassPriceScenario"><option>Low -50%</option><option>Standard</option><option>High +50%</option></select></label>
           <label class="field"><span>Salinity spread rate</span><input type="number" name="salinityRate" step="0.0001"></label>
         </div>
 
@@ -119,6 +125,7 @@
           <label><input type="checkbox" name="includeBiomass"> Include biomass sales</label>
           <label><input type="checkbox" name="includeMicroclimate"> Include micro-climate benefit</label>
           <label><input type="checkbox" name="includeErosion"> Include increased grazing benefit</label>
+          <label><input type="checkbox" name="includeSalinity"> Include reduced salinity spread benefit</label>
         </div>
 
         <details>
@@ -236,7 +243,7 @@
       <h2>Results</h2>
       <div class="results-grid">
         <article class="result-card">
-          <p class="label">Economic impact</p>
+          <p class="label">Economic impact ($/ha of trees/year)</p>
           <p id="total-impact" class="value">$0</p>
         </article>
         <article class="result-card">

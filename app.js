@@ -5,7 +5,7 @@ const FOCUS_OPTIONS = ["Carb Block", "Carb Belt", "Bio Block", "Harv Belt"];
 const SOIL_OPTIONS = ["Poor", "Good"];
 const AREA_OPTIONS = [1, 10, 100];
 const CARBON_PRICE_OPTIONS = ["Low (-50%)", "Standard", "High (+50%)"];
-const MULTIPLIER_PRICE_OPTIONS = ["Low -50%", "Standard", "Low +50%"];
+const MULTIPLIER_PRICE_OPTIONS = ["Low -50%", "Standard", "High +50%"];
 
 const DEFAULTS = {
   location: "Central wheatbelt",
@@ -21,6 +21,7 @@ const DEFAULTS = {
   includeBiomass: true,
   includeMicroclimate: true,
   includeErosion: true,
+  includeSalinity: true,
   salinityRate: 0.0089,
   costRippingMounding: 280,
   costInitialWeed: 54,
@@ -196,6 +197,7 @@ function parseInputs() {
     includeBiomass: read("includeBiomass") === "on",
     includeMicroclimate: read("includeMicroclimate") === "on",
     includeErosion: read("includeErosion") === "on",
+    includeSalinity: read("includeSalinity") === "on",
     salinityRate: toNum("salinityRate"),
     costRippingMounding: toNum("costRippingMounding"),
     costInitialWeed: toNum("costInitialWeed"),
@@ -281,7 +283,7 @@ function carbonPrice(inputs) {
 
 function multiplierChoice(choice) {
   if (choice === "Low -50%") return 0.5;
-  if (choice === "Low +50%") return 1.5;
+  if (choice === "High +50%" || choice === "Low +50%") return 1.5;
   return 1;
 }
 
@@ -320,7 +322,7 @@ function calcTrees(inputs) {
   for (let yr = 2; yr <= years - 1; yr += 1) {
     npv += b16 / ((1 + r) ** yr);
   }
-  return npv * crf(r, years);
+  return -(npv * crf(r, years));
 }
 
 function calcCarbon(inputs) {
@@ -334,8 +336,8 @@ function calcCarbon(inputs) {
   const risk = 0.05;
   const fuelFactor = 2.7 + 0.002123 + 0.01351;
   const price = carbonPrice(inputs);
-  const annualMonitoringCost = 0;
-  const setupCost = 0;
+  const annualMonitoringCost = inputs.costSequestrationAnnualHa;
+  const setupCost = inputs.costSequestrationSetupFarm / Math.max(1, inputs.area);
   const discount = 0.05;
 
   let pv = 0;
@@ -365,7 +367,7 @@ function calcBiodiversity(inputs) {
   const years = 25;
   const adjustedValue = value * multiplierChoice(inputs.biodiversityPriceScenario);
   const annualIncome = adjustedValue * crf(rate, years);
-  const annualVar = inputs.costBiodiversityAnnualHa / Math.max(1, inputs.area);
+  const annualVar = inputs.costBiodiversityAnnualHa;
   const annualFixed = (inputs.costBiodiversitySetupFarm / Math.max(1, inputs.area)) * crf(rate, years);
   return annualIncome - annualVar - annualFixed;
 }
@@ -407,7 +409,7 @@ function compute(inputs) {
   const biomass = calcBiomass(inputs);
   const microclimate = inputs.includeMicroclimate ? lookupMicro(inputs) : 0;
   const erosion = inputs.includeErosion ? lookupErosion(inputs) : 0;
-  const salinity = lookupSalinity(inputs);
+  const salinity = inputs.includeSalinity ? lookupSalinity(inputs) : 0;
   const recharge = lookupRecharge(inputs);
 
   const rows = [
@@ -443,6 +445,9 @@ function persist(inputs) {
 }
 
 function toDisplayValue(key, value) {
+  if ((key === "biodiversityPriceScenario" || key === "biomassPriceScenario") && value === "Low +50%") {
+    return "High +50%";
+  }
   if (PERCENT_FIELDS.has(key) && Number.isFinite(Number(value))) {
     return Number(value) * 100;
   }
