@@ -180,8 +180,8 @@ const TABLES = {
 
 const form = document.querySelector("#calculator-form");
 const validationEl = document.querySelector("#validation-message");
-const tableBody = document.querySelector("#results-body");
 const totalEl = document.querySelector("#total-impact");
+const chartEl = document.querySelector("#component-chart");
 const regionInputs = document.querySelectorAll("[data-region]");
 
 function formatCurrency(value) {
@@ -466,15 +466,15 @@ function compute(inputs) {
 
   const rows = [
     ["Land opportunity cost", landOpportunity],
-    ["+trees", trees],
-    ["+livestock shelter", shelter],
-    ["+adj pad interaction", adjacent],
-    ["+carbon", carbon],
-    ["+biodiversity", biodiversity],
-    ["+harvesting", biomass],
-    ["+micro-climate", microclimate],
-    ["+increased grazing", erosion],
-    ["+reduced salinity spread", salinity]
+    ["Tree establishment and maintenance", trees],
+    ["Livestock shelter", shelter],
+    ["Adjacent paddock interaction", adjacent],
+    ["Carbon", carbon],
+    ["Biodiversity", biodiversity],
+    ["Biomass harvesting", biomass],
+    ["Micro-climate", microclimate],
+    ["Increased grazing", erosion],
+    ["Reduced salinity spread", salinity]
   ];
 
   const total = rows.reduce((sum, row) => sum + row[1], 0);
@@ -559,14 +559,47 @@ function updateRegionInputs() {
   });
 }
 
+function renderChart(rows) {
+  chartEl.innerHTML = "";
+  chartEl.setAttribute(
+    "aria-label",
+    rows.map(([label, value]) => `${label}: ${formatCurrency(value)}`).join("; ")
+  );
+  const maxMagnitude = Math.max(1, ...rows.map(([, value]) => Math.abs(value)));
+
+  rows.forEach(([rawLabel, value]) => {
+    const label = rawLabel.replace(/^\+/, "");
+    const row = document.createElement("div");
+    row.className = "chart-row";
+    row.setAttribute("aria-label", `${label}: ${formatCurrency(value)}`);
+
+    const labelEl = document.createElement("span");
+    labelEl.className = "chart-label";
+    labelEl.textContent = label;
+
+    const track = document.createElement("span");
+    track.className = "chart-track";
+    const bar = document.createElement("span");
+    const isBenefit = value >= 0;
+    bar.className = `chart-bar ${isBenefit ? "benefit" : "cost"}`;
+    if (value === 0) bar.hidden = true;
+    else bar.style.width = `${(Math.abs(value) / maxMagnitude) * 50}%`;
+    bar.title = `${label}: ${formatCurrency(value)}`;
+    track.appendChild(bar);
+
+    const valueEl = document.createElement("span");
+    valueEl.className = `chart-value ${isBenefit ? "benefit" : "cost"}`;
+    valueEl.textContent = formatCurrency(value);
+
+    row.append(labelEl, track, valueEl);
+    chartEl.appendChild(row);
+  });
+}
+
 function render(result) {
   totalEl.textContent = formatCurrency(result.total);
-  tableBody.innerHTML = "";
-  result.rows.forEach(([label, value]) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `<td>${label}</td><td>${formatCurrency(value)}</td>`;
-    tableBody.appendChild(tr);
-  });
+  totalEl.classList.toggle("negative", result.total < 0);
+  renderChart(result.rows);
 }
 
 function recalc() {

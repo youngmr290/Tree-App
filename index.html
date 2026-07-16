@@ -288,12 +288,16 @@
           <p id="total-impact" class="value">$0</p>
         </article>
       </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Component</th><th>$/ha trees/year</th></tr></thead>
-          <tbody id="results-body"></tbody>
-        </table>
-      </div>
+      <figure class="component-chart-card">
+        <div class="chart-heading">
+          <figcaption>Annual economic impact by component</figcaption>
+          <div class="chart-legend" aria-hidden="true">
+            <span><i class="legend-swatch cost"></i>Cost</span>
+            <span><i class="legend-swatch benefit"></i>Benefit</span>
+          </div>
+        </div>
+        <div id="component-chart" class="component-chart" role="img" aria-label="Economic costs and benefits by component"></div>
+      </figure>
     </section>
   </main>
   <script src="./app.js"></script>
