@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>On-Farm Tree Economics Tool | User Guide</title>
+<style>
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; }
+body { margin: 0; color: #20392c; background: #e5ece3; font-family: "Segoe UI", Arial, sans-serif; font-size: 10pt; line-height: 1.38; }
+.page { width: 210mm; height: 297mm; position: relative; margin: 6mm auto; padding: 16mm 17mm 19mm; background: #fff; break-after: page; overflow: hidden; }
+.page:last-child { break-after: auto; }
+.eyebrow { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 1.6px; color: #447455; font-weight: 700; margin-bottom: 5mm; }
+h1,h2,h3 { color: #214e38; font-family: Georgia, serif; line-height: 1.15; }
+h1 { font-size: 30pt; margin: 0 0 4mm; }
+h2 { font-size: 24pt; margin: 0 0 5mm; }
+h3 { font-size: 13pt; margin: 4mm 0 2mm; }
+p { margin: 0 0 2.5mm; }
+.lead { font-size: 12pt; color: #4d6353; margin-bottom: 5mm; }
+.tag { display: inline-block; border-radius: 4mm; background: #e9f1e5; padding: 1.4mm 3mm; font-size: 8.5pt; margin-bottom: 5mm; }
+.callout { padding: 3.5mm 4mm; background: #edf4e8; border-left: 1mm solid #4b7b50; margin: 4mm 0; }
+.callout p:last-child { margin-bottom: 0; }
+.small { font-size: 9pt; color: #4d6353; }
+.muted { color: #4d6353; }
+.steps { list-style: none; padding: 0; counter-reset: step; margin: 4mm 0; }
+.steps li { counter-increment: step; position: relative; padding: 0 0 2.8mm 10mm; }
+.steps li::before { content: counter(step); position: absolute; left: 0; top: 0.5mm; width: 6.5mm; height: 6.5mm; border-radius: 50%; background: #2d6a4f; color: white; text-align: center; font-size: 10pt; line-height: 6.5mm; font-weight: 700; }
+.steps strong { display: block; }
+.columns { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+table { width: 100%; border-collapse: collapse; margin: 3mm 0 4mm; font-size: 9.2pt; line-height: 1.32; }
+th { text-align: left; color: #fff; background: #2e654b; padding: 2.6mm 3mm; font-weight: 600; }
+td { padding: 2.5mm 3mm; border-bottom: 0.25mm solid #dce5d7; vertical-align: top; }
+tr:nth-child(even) td { background: #f5f8f2; }
+.compact td { padding: 2.1mm 3mm; }
+.component-table td:first-child { width: 42mm; font-weight: 600; }
+.diagram { margin: 4mm 0; padding: 3mm; border: 0.3mm solid #d9e2d3; border-radius: 2mm; }
+.diagram img { display: block; width: 100%; height: 44mm; object-fit: contain; }
+figcaption { font-size: 8.5pt; color: #526654; margin-top: 2mm; }
+.formula { text-align: center; font-size: 13pt; font-weight: 700; padding: 5mm; color: #214e38; background: #edf4e8; border-radius: 2mm; margin: 4mm 0; }
+.footer { position: absolute; bottom: 9mm; left: 17mm; right: 17mm; border-top: 0.3mm solid #d9e2d3; padding-top: 2.5mm; display: flex; justify-content: space-between; font-size: 8pt; color: #60735f; }
+.number { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.negative { color: #9c3e3e; }
+.positive { color: #216540; }
+.contents { font-size: 9pt; color: #4d6353; border-top: 0.3mm solid #d9e2d3; padding-top: 3mm; margin-top: 4mm; }
+@media print { body { background: white; } .page { margin: 0; } * { print-color-adjust: exact; -webkit-print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+<section class="page">
+  <div class="eyebrow">On-Farm Tree Economics Tool</div>
+  <h1>User guide</h1>
+  <p class="lead">Getting started, choosing a scenario and understanding the economics of trees on Wheatbelt farms.</p>
+  <div class="tag">Guide version 1.0 · 7 September 2026</div>
+  <h3>What the tool helps you explore</h3>
+  <p>The calculator estimates the change in farm economics from planting trees, allowing for establishment costs, farming production forgone, interactions with nearby land and selected income streams. Use it to compare planting options and see which assumptions drive the result.</p>
+  <div class="callout"><p><strong>The main result is dollars per hectare of trees per year.</strong> It is an annualised economic comparison with continuing conventional farming on that land. It is not the farm's total profit or a forecast of cash received each year.</p></div>
+  <h3>Your first calculation</h3>
+  <ol class="steps">
+    <li><strong>Open the calculator and find Scenario Inputs.</strong>Read Definitions and Background when you need context. Select a small <b>i</b> button for help; close it with ×, Escape or a click outside.</li>
+    <li><strong>Select a location that matches production conditions.</strong>Use Central Wheatbelt / Northam for higher production, or Eastern Wheatbelt / Merredin for lower production.</li>
+    <li><strong>Choose planting focus, soil and planting area.</strong>Select the proposed design and the soil of the land to be planted. Available areas are 1, 10 and 100 hectares.</li>
+    <li><strong>Choose the benefits and price scenarios to explore.</strong>Check the inclusion boxes deliberately. After Reset, all benefits are selected. Start with Standard prices, then try Low and High.</li>
+    <li><strong>Keep Advanced Inputs at defaults for a first run.</strong>Change individual assumptions only when you have better information. Existing values should remain filled in.</li>
+    <li><strong>Read the result and its component chart.</strong>Results update automatically. Examine the largest costs and benefits, then change one assumption at a time.</li>
+    <li><strong>Save a record before trying another scenario.</strong>Use Print / Save PDF and select your browser's PDF destination. Record the scenario settings alongside the result.</li>
+  </ol>
+  <p class="contents"><strong>In this guide:</strong> Scenario choices · p2 &nbsp; | &nbsp; Fundamentals · p3<br>Reading results · p4 &nbsp; | &nbsp; Advanced inputs and saving · p5 &nbsp; | &nbsp; Worked example · p6</p>
+  <div class="footer"><span>On-Farm Tree Economics Tool · User guide</span><span>1 / 6</span></div>
+</section>
+
+<section class="page">
+  <div class="eyebrow">Choose your scenario</div>
+  <h2>Match the land and planting</h2>
+  <h3>Location describes representative farming conditions</h3>
+  <table>
+    <thead><tr><th>Setting</th><th>When to use it</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Central Wheatbelt — Northam</strong></td><td>Higher-production conditions, including other Wheatbelt areas with comparable production.</td></tr>
+      <tr><td><strong>Eastern Wheatbelt — Merredin</strong></td><td>Lower-production conditions, including other Wheatbelt areas with comparable production.</td></tr>
+    </tbody>
+  </table>
+  <p>Choose the closest production match, rather than relying on geography alone. Location mainly affects the farming profit forgone when land is planted to trees. It also changes tree-growth assumptions and several farm benefits.</p>
+  <p class="small">The WNRM map is available inside the Location info pop-up. Its sub-region boundaries are for geographic reference; they do not define the calculator's two settings. Apply care outside the Wheatbelt, where the assumptions may be less suitable.</p>
+  <h3>Soil refers to the area you intend to plant</h3>
+  <p><strong>Good = 100% production potential.</strong> <strong>Poor = 70%</strong> of that crop or pasture production potential under similar regional conditions. Select for the proposed planting site, rather than averaging the entire farm.</p>
+  <p class="small">These percentages guide soil selection. The model has separate relationships for farming returns, carbon and biomass; choosing Poor does not reduce every result by exactly 30%.</p>
+  <h3>Planting focus sets the design and management</h3>
+  <table class="compact">
+    <thead><tr><th>Option shown in the tool</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Carb Block</strong></td><td>Carbon block: trees planted in a broader area, primarily for carbon sequestration.</td></tr>
+      <tr><td><strong>Carb Belt</strong></td><td>Carbon belt: narrow strips for carbon sequestration and farm benefits such as livestock shelter.</td></tr>
+      <tr><td><strong>Bio Block</strong></td><td>Biodiversity block: a lower-density mix of trees and shrubs focused on biodiversity.</td></tr>
+      <tr><td><strong>Harv Belt</strong></td><td>Harvesting belt: tree strips managed for periodic biomass harvesting.</td></tr>
+    </tbody>
+  </table>
+  <p>Planting focus and benefit checkboxes do different jobs. Focus sets planting and management assumptions; checkboxes select the benefits or income streams to include. Biomass harvesting is modelled for Harv Belt; other designs have no harvest profile.</p>
+  <div class="columns">
+    <div><h3>Planting area</h3><p>Choose <strong>1, 10 or 100 ha</strong> of tree planting, including its side buffers. This is not total farm area or the cropping/grazing area between belts. Area changes fixed costs per hectare and some farm interactions.</p></div>
+    <div><h3>Price scenarios</h3><p><strong>Standard</strong> uses the price or value in Advanced Inputs. <strong>Low</strong> is 50% lower; <strong>High</strong> is 50% higher. They change the relevant price/value, not tree growth, costs or every component of the result.</p></div>
+  </div>
+  <div class="footer"><span>Choose the closest production conditions</span><span>2 / 6</span></div>
+</section>
+
+<section class="page">
+  <div class="eyebrow">Tool fundamentals</div>
+  <h2>How trees affect farm economics</h2>
+  <p class="lead">The calculation brings together direct planting costs, changes to the farming system and possible returns from trees.</p>
+  <div class="formula">Annualised benefits + income − annualised costs<br>= economic impact per hectare of trees</div>
+  <h3>1. Land already has a productive use</h3>
+  <p><strong>Land opportunity cost</strong> is the farming profit forgone by allocating land to trees. It is not the purchase price of the land. More productive sites generally give up more farming income, even where trees also grow better.</p>
+  <h3>2. Layout changes interactions with surrounding land</h3>
+  <p>Belts provide edges that can shelter livestock, crops and pastures. Trees also compete with nearby plants for water, light and nutrients. Blocks concentrate trees in one area and generally have less edge per hectare than narrow belts. The balance of these effects matters.</p>
+  <figure class="diagram">
+    <img src="../assets/definitions-figure.png" alt="A single tree belt with two rows, side buffers and competition zones beside open paddock." width="1471" height="597">
+    <figcaption>This shows one belt with two tree rows. Inter-row spacing is within the belt. Separate belts have cropping or grazing land between them. Side buffers are included in the tree area: 4 m for belts and 5 m for blocks.</figcaption>
+  </figure>
+  <h3>3. Benefits depend on where and how trees are used</h3>
+  <p>Livestock shelter depends on animals being able to use it and on paddock management. Increased grazing benefits apply to belts in this model; blocks receive zero. Salinity benefits depend on the extra saline area expected and how much contributing recharge area is influenced by trees. These are scenario assumptions to examine.</p>
+  <h3>4. The calculator draws on whole-farm modelling</h3>
+  <p>Australian Farm Optimisation (AFO) models the interactions among crops, pastures, livestock, land and farm resources. This tool uses pre-calculated AFO values for representative farming systems, combined with calculations for tree costs and returns. Changing inputs does not run a new, fully customised AFO farm model.</p>
+  <div class="callout"><p><strong>Use comparisons to understand the decision.</strong> Representative farms provide a useful starting point, but individual farm layouts, management and production can differ. Some benefits, such as aesthetics, are not assigned a dollar value in the tool.</p></div>
+  <div class="footer"><span>The layout and farming system both matter</span><span>3 / 6</span></div>
+</section>
+
+<section class="page">
+  <div class="eyebrow">Understand the result</div>
+  <h2>Read the total and its components</h2>
+  <p><strong>A positive total</strong> indicates an estimated economic improvement relative to continuing conventional farming on the planted land. <strong>A negative total</strong> indicates an estimated reduction, under the selected assumptions.</p>
+  <p>The tool expresses project costs and returns as annual equivalents using a <strong>25-year period and a 5% discount rate</strong>. This allows upfront costs and later returns to be compared. Actual establishment expenditure, credit receipts and harvest income occur at different times.</p>
+  <table class="component-table compact">
+    <thead><tr><th>Chart component</th><th>What it represents</th></tr></thead>
+    <tbody>
+      <tr><td>Land opportunity cost</td><td>Farming profit forgone on the tree area. Always included.</td></tr>
+      <tr><td>Tree establishment and maintenance</td><td>Site preparation, seedlings, planting and subsequent management costs, annualised. Always included.</td></tr>
+      <tr><td>Livestock shelter</td><td>Modelled livestock production benefit from shelter, when selected.</td></tr>
+      <tr><td>Adjacent paddock interaction</td><td>The modelled balance of shelter and competition effects on nearby production. Always included.</td></tr>
+      <tr><td>Carbon</td><td>Carbon income less the included monitoring, auditing and setup costs, when selected.</td></tr>
+      <tr><td>Biodiversity</td><td>The assumed biodiversity value, annualised, less included monitoring and setup costs, when selected.</td></tr>
+      <tr><td>Biomass harvesting</td><td>Biomass sales less harvesting and road transport costs, when selected and supported by the planting design.</td></tr>
+      <tr><td>Micro-climate</td><td>Modelled economic benefit from the production-increase assumption, when selected.</td></tr>
+      <tr><td>Increased grazing</td><td>Additional grazing value associated with reduced erosion risk. Applies to belts when selected.</td></tr>
+      <tr><td>Reduced salinity spread</td><td>Value of limiting further salinity spread through the assumed influence on recharge area, when selected.</td></tr>
+    </tbody>
+  </table>
+  <p class="small">The chart shows costs in red and benefits in green. Carbon, biodiversity and biomass are net components: they can be negative if the included costs exceed returns. An unchecked optional component contributes zero.</p>
+  <div class="callout"><p><strong>From per hectare to planting-wide impact</strong><br>If a selected 10 ha scenario shows +$100/ha of trees/year, its equivalent annual impact across that planting is approximately <strong>+$1,000/year</strong>. This is an illustration of the units, not a forecast of annual cash receipts.</p></div>
+  <h3>Three useful checks</h3>
+  <p>Identify the largest cost and benefit. Compare the result with carbon and biodiversity switched off. Then try lower prices or values to see how much the conclusion changes.</p>
+  <p class="small">Selecting an income stream explores that assumption; it does not establish that a particular planting qualifies for a payment or that the modelled price will be available.</p>
+  <div class="footer"><span>Economic impact is an annual equivalent, not a cash-flow schedule</span><span>4 / 6</span></div>
+</section>
+
+<section class="page">
+  <div class="eyebrow">Refine and record</div>
+  <h2>Advanced inputs and comparisons</h2>
+  <p>Advanced Inputs are pre-filled with defaults. You can keep them for an initial comparison or change only the values for which you have better information. Results combine those changes with the remaining settings.</p>
+  <div class="callout"><p><strong>Keep existing values filled in.</strong> Blanks become zero; they do not restore defaults and can change results or trigger errors. <strong>Reset</strong> restores all inputs, scenario selections and benefit checkboxes.</p></div>
+  <h3>Where to find better assumptions</h3>
+  <table class="compact">
+    <thead><tr><th>Input group</th><th>Possible source and how to use it</th></tr></thead>
+    <tbody>
+      <tr><td>Preparation, seedlings and planting</td><td>Farm records, nursery prices and contractor quotes. Check whether figures are per hectare, plant, day or hour.</td></tr>
+      <tr><td>Maintenance</td><td>Expected weed control and fertiliser costs. Distinguish initial, Year 1 and ongoing costs.</td></tr>
+      <tr><td>Carbon and biodiversity</td><td>Project-specific estimates of yields, value, setup and monitoring costs. Biodiversity Value ($/ha) is a total assumed project value per hectare that the tool annualises; it is not annual income.</td></tr>
+      <tr><td>Biomass harvesting</td><td>Yield estimates, buyer prices, harvesting quotes and distance to the processor. “Green tonnes” are fresh biomass weight. Yield is entered as an annual average; harvest receipts occur periodically.</td></tr>
+      <tr><td>Micro-climate and salinity</td><td>Site assessment or supporting modelling. Keep defaults where you do not have a stronger basis for changing the assumed production increase or recharge effects.</td></tr>
+    </tbody>
+  </table>
+  <p class="small">Percentage fields use percentage numbers: enter 10 for 10%, not 0.10. Fields specific to a region show the selected region's values. Changing region uses that region's stored settings; it does not reset your other edits.</p>
+  <h3>A simple comparison routine</h3>
+  <ol class="steps">
+    <li><strong>Save a baseline.</strong>Record the region, soil, focus, area, included benefits, price scenarios and any advanced-input changes.</li>
+    <li><strong>Change one thing and compare.</strong>Try another design or soil, then test prices separately. Keep other settings at baseline for a fair comparison.</li>
+    <li><strong>Recalculate when you change area.</strong>Fixed project costs are spread across more or fewer hectares, and some farm effects also change. Do not assume the per-hectare result stays constant.</li>
+  </ol>
+  <h3>Saving, returning and resolving errors</h3>
+  <p>Valid settings are saved in this browser and may be lost if its storage is cleared. Use <strong>Print / Save PDF</strong> for a record. Open Advanced Inputs before printing to include them, and check the preview. Give each PDF a descriptive scenario name.</p>
+  <p>If a validation message appears, correct the input before using the result. The chart can still show the last valid calculation. Reset provides a fresh start if you are unsure which values have changed.</p>
+  <div class="footer"><span>Save the assumptions as well as the result</span><span>5 / 6</span></div>
+</section>
+
+<section class="page">
+  <div class="eyebrow">Try it yourself</div>
+  <h2>A worked comparison</h2>
+  <p class="lead">This exercise shows how included income streams can change a result. The figures below were calculated using the current tool's defaults.</p>
+  <h3>Set up the common scenario</h3>
+  <p>Press <strong>Reset</strong>, then select <strong>Central Wheatbelt</strong>, <strong>Carb Block</strong>, <strong>Poor soil</strong> and <strong>10 ha</strong>. Keep Advanced Inputs at defaults. Keep livestock shelter, micro-climate, increased grazing and reduced salinity spread selected. Leave biomass sales unchecked throughout this exercise.</p>
+  <table>
+    <thead><tr><th>Run</th><th>Carbon and biodiversity settings</th><th class="number">Impact<br>$/ha of trees/year</th></tr></thead>
+    <tbody>
+      <tr><td><strong>A</strong><br>Farm benefits</td><td>Carbon off; biodiversity off.<br>All price scenarios Standard.</td><td class="number negative">−$127.36</td></tr>
+      <tr><td><strong>B</strong><br>Add carbon</td><td>Carbon on; biodiversity off.<br>All price scenarios Standard.</td><td class="number negative">−$34.41</td></tr>
+      <tr><td><strong>C</strong><br>Add biodiversity</td><td>Carbon on; biodiversity on.<br>All price scenarios Standard.</td><td class="number positive">+$1,075.83</td></tr>
+      <tr><td><strong>D</strong><br>Lower values</td><td>Keep both on. Change carbon and biodiversity price scenarios to Low (−50%).</td><td class="number positive">+$378.28</td></tr>
+    </tbody>
+  </table>
+  <h3>What to look for</h3>
+  <p>In Run A, the selected farm benefits do not cover the modelled costs. Adding carbon improves the result but leaves it slightly negative. Run C becomes strongly positive because of the assumed biodiversity value. Run D demonstrates how sensitive that result is to lower credit prices and values.</p>
+  <p>For Run B, the Carbon component is <strong>+$92.95/ha/year</strong>. This is its net contribution after the included carbon-project costs, not gross carbon sales. The total moves from −$127.36 to −$34.41/ha/year.</p>
+  <div class="callout"><p><strong>The lesson is to inspect the assumptions behind a positive total.</strong> These are model scenarios, not promised payments. Examine the contribution of each component and the values you would need to support for your own planting.</p></div>
+  <h3>Keep a useful scenario record</h3>
+  <p>Along with the exported result, note the planting site, date, region, soil, design, area, benefit selections, price scenarios and any values you changed. Record where replacement assumptions came from. This makes later comparisons and discussions with a farm or project adviser much easier.</p>
+  <h3>Basis of this guide</h3>
+  <p class="small">Based on the calculator reviewed on 7 September 2026, <em>Modelling Report – Trees</em> (Michael, 2025), the supplied WNRM map and the project owner's location and soil guidance.</p>
+  <p class="small">The report uses 4.5% perpetuity annualisation for biodiversity; the current app uses 5% over 25 years. This guide follows the app. Updated assumptions or calculations may change the example results.</p>
+  <div class="footer"><span>Worked example verified against the current calculator</span><span>6 / 6</span></div>
+</section>
+</body>
+</html>
