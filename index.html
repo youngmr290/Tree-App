@@ -21,10 +21,10 @@
       <h2>Definitions</h2>
       <div class="background-grid">
         <article class="background-card">
-          <h3>Tree Belt (or Block)</h3>
-          <p>The tree belt refers to the area occupied by planted trees, including an adjacent side buffer.</p>
+          <h3 class="label-with-info">Tree Belt (or Block) <button type="button" class="info-button" popovertarget="belt-guidance" aria-label="About belts, blocks and spacing">i</button></h3>
+          <p>The tree belt or block refers to the area occupied by planted trees, including an adjacent side buffer.</p>
           <p>The side buffer is treated as a no-cropping zone immediately next to the trees where production is negligible or uneconomic.</p>
-          <p>In this analysis, the side buffer is 4 m wide.</p>
+          <p>In this analysis, the side buffer is 4 m wide for belts and 5 m wide for blocks.</p>
         </article>
         <article class="background-card">
           <h3>Competition Zone</h3>
@@ -130,13 +130,13 @@
       <h2>Scenario Inputs</h2>
       <form id="calculator-form" novalidate>
         <div class="field-grid">
-          <label class="field"><span>Location</span><select name="location"><option>Central wheatbelt</option><option>Eastern wheatbelt</option></select></label>
-          <label class="field"><span>Planting focus</span><select name="focus"><option>Carb Block</option><option>Carb Belt</option><option>Bio Block</option><option>Harv Belt</option></select></label>
-          <label class="field"><span>Soil</span><select name="soil"><option>Poor</option><option>Good</option></select></label>
+          <div class="field"><div class="label-with-info"><label for="location">Location</label><button type="button" class="info-button" popovertarget="location-guidance" aria-label="About location and the region map">i</button></div><select id="location" name="location"><option value="Central wheatbelt">Central Wheatbelt — Northam / higher production</option><option value="Eastern wheatbelt">Eastern Wheatbelt — Merredin / lower production</option></select></div>
+          <div class="field"><div class="label-with-info"><label for="focus">Planting focus</label><button type="button" class="info-button" popovertarget="planting-guidance" aria-label="About planting focus options">i</button></div><select id="focus" name="focus"><option>Carb Block</option><option>Carb Belt</option><option>Bio Block</option><option>Harv Belt</option></select></div>
+          <div class="field"><div class="label-with-info"><label for="soil">Soil</label><button type="button" class="info-button" popovertarget="soil-guidance" aria-label="About soil production potential">i</button></div><select id="soil" name="soil"><option value="Poor">Poor — 70% production potential</option><option value="Good">Good — 100% production potential</option></select></div>
           <label class="field"><span>Planting area (ha)</span><select name="area"><option value="1">1</option><option value="10">10</option><option value="100">100</option></select></label>
-          <label class="field"><span>Carbon price scenario</span><select name="carbonPriceScenario"><option>Low (-50%)</option><option>Standard</option><option>High (+50%)</option></select></label>
-          <label class="field"><span>Biodiversity price scenario</span><select name="biodiversityPriceScenario"><option>Low -50%</option><option>Standard</option><option>High +50%</option></select></label>
-          <label class="field"><span>Biomass price scenario</span><select name="biomassPriceScenario"><option>Low -50%</option><option>Standard</option><option>High +50%</option></select></label>
+          <div class="field"><div class="label-with-info"><label for="carbon-price-scenario">Carbon price scenario</label><button type="button" class="info-button" popovertarget="price-guidance" aria-label="About carbon price scenarios">i</button></div><select id="carbon-price-scenario" name="carbonPriceScenario"><option>Low (-50%)</option><option>Standard</option><option>High (+50%)</option></select></div>
+          <div class="field"><div class="label-with-info"><label for="biodiversity-price-scenario">Biodiversity price scenario</label><button type="button" class="info-button" popovertarget="price-guidance" aria-label="About biodiversity price scenarios">i</button></div><select id="biodiversity-price-scenario" name="biodiversityPriceScenario"><option>Low -50%</option><option>Standard</option><option>High +50%</option></select></div>
+          <div class="field"><div class="label-with-info"><label for="biomass-price-scenario">Biomass price scenario</label><button type="button" class="info-button" popovertarget="price-guidance" aria-label="About biomass price scenarios">i</button></div><select id="biomass-price-scenario" name="biomassPriceScenario"><option>Low -50%</option><option>Standard</option><option>High +50%</option></select></div>
         </div>
 
         <div class="check-grid">
@@ -150,7 +150,8 @@
         </div>
 
         <details>
-          <summary>Advanced Inputs</summary>
+          <summary>Advanced Inputs <button type="button" class="info-button" popovertarget="advanced-guidance" aria-label="About using advanced inputs">i</button></summary>
+
 
           <fieldset class="assumption-group">
             <legend>Cost - Initial Costs (Site Prep)</legend>
@@ -300,6 +301,83 @@
       </figure>
     </section>
   </main>
+
+  <section id="belt-guidance" class="info-popover" popover role="dialog" aria-labelledby="belt-guidance-title">
+    <div class="popover-heading">
+      <h2 id="belt-guidance-title">Belts, blocks and spacing</h2>
+      <button type="button" class="popover-close" popovertarget="belt-guidance" popovertargetaction="hide" aria-label="Close belts, blocks and spacing help" autofocus>&times;</button>
+    </div>
+    <p>Belts are narrow strips of trees with cropping or grazing land between them. Blocks concentrate trees in a broader planted area.</p>
+    <p>The diagram shows one belt containing two tree rows. Inter-row spacing is the gap between rows within a belt; separate belts have cropping or grazing land between them.</p>
+  </section>
+
+  <section id="location-guidance" class="info-popover location-popover" popover role="dialog" aria-labelledby="location-guidance-title">
+    <div class="popover-heading">
+      <h2 id="location-guidance-title">Choosing a location</h2>
+      <button type="button" class="popover-close" popovertarget="location-guidance" popovertargetaction="hide" aria-label="Close choosing a location help" autofocus>&times;</button>
+    </div>
+    <p>The model uses representative farming systems based around Northam and Merredin to capture contrasting production conditions.</p>
+            <p>Choose <strong>Central Wheatbelt</strong> for higher-production conditions and <strong>Eastern Wheatbelt</strong> for lower-production conditions. Use the closest match to your farm's production, rather than its location alone. These settings can also represent other Wheatbelt areas with similar production.</p>
+            <p>Location mainly affects the land opportunity cost: the farming profit forgone by allocating land to trees. It also changes tree-growth assumptions and several farm benefits.</p>
+            <p>Apply care outside the Wheatbelt, where the underlying assumptions may be less suitable.</p>
+    <details class="location-map">
+          <summary>View location map</summary>
+          <figure class="definition-figure">
+            <div class="map-image">
+              <img src="./assets/wnrm-subregions.png" alt="WNRM sub-region boundaries and towns, with Northam toward the west and Merredin further east." width="2000" height="1414" loading="lazy">
+              <svg class="map-markers" viewBox="0 0 2000 1414" role="img" aria-label="Northam represents Central Wheatbelt higher-production conditions. Merredin represents Eastern Wheatbelt lower-production conditions.">
+                <g class="map-marker">
+                  <circle cx="399" cy="650" r="13" />
+                  <path d="M399 650 L475 735 L690 735" />
+                  <text x="480" y="775">Northam · Central</text>
+                  <circle cx="927" cy="583" r="13" />
+                  <path d="M927 583 L985 440 L1220 440" />
+                  <text x="990" y="420">Merredin · Eastern</text>
+                </g>
+              </svg>
+            </div>
+            <figcaption>WNRM sub-regions shown for geographic reference. The calculator's Central and Eastern Wheatbelt settings represent farming conditions and do not correspond directly to these boundaries. <a href="./assets/wnrm-subregions.pdf" target="_blank" rel="noopener noreferrer">Open the original WNRM map (PDF)</a>.</figcaption>
+          </figure>
+        </details>
+  </section>
+
+  <section id="planting-guidance" class="info-popover" popover role="dialog" aria-labelledby="planting-guidance-title">
+    <div class="popover-heading">
+      <h2 id="planting-guidance-title">Choosing a planting focus</h2>
+      <button type="button" class="popover-close" popovertarget="planting-guidance" popovertargetaction="hide" aria-label="Close choosing a planting focus help" autofocus>&times;</button>
+    </div>
+    <p><strong>Carb Block — Carbon block:</strong> A block of trees planted primarily for carbon sequestration.</p>
+            <p><strong>Carb Belt — Carbon belt:</strong> Narrow belts planted for carbon sequestration and benefits such as livestock shelter.</p>
+            <p><strong>Bio Block — Biodiversity block:</strong> A lower-density planting of trees and shrubs focused on biodiversity.</p>
+            <p><strong>Harv Belt — Harvesting belt:</strong> Belts managed for periodic biomass harvesting.</p>
+            <p>Choose the design closest to your proposed planting, then compare alternatives. The focus sets planting and management assumptions; the scenario checkboxes control which income streams and benefits are included.</p>
+            <p>Compare options using annualised economic impact in dollars per hectare of trees per year.</p>
+  </section>
+
+  <section id="soil-guidance" class="info-popover" popover role="dialog" aria-labelledby="soil-guidance-title">
+    <div class="popover-heading">
+      <h2 id="soil-guidance-title">Soil production potential</h2>
+      <button type="button" class="popover-close" popovertarget="soil-guidance" popovertargetaction="hide" aria-label="Close soil production potential help" autofocus>&times;</button>
+    </div>
+    <p>Choose for the land you intend to plant. <strong>Good represents 100% production potential</strong> for crops or pastures; <strong>Poor represents 70%</strong> of that potential under similar regional conditions.</p>
+    <p>Soil choice affects farming profit forgone, tree growth and interactions with adjacent land.</p>
+  </section>
+
+  <section id="price-guidance" class="info-popover" popover role="dialog" aria-labelledby="price-guidance-title">
+    <div class="popover-heading">
+      <h2 id="price-guidance-title">Price scenarios</h2>
+      <button type="button" class="popover-close" popovertarget="price-guidance" popovertargetaction="hide" aria-label="Close price scenarios help" autofocus>&times;</button>
+    </div>
+    <p>Standard uses the price or value in Advanced Inputs. Low reduces it by 50%; High increases it by 50%.</p>
+  </section>
+
+  <section id="advanced-guidance" class="info-popover" popover role="dialog" aria-labelledby="advanced-guidance-title">
+    <div class="popover-heading">
+      <h2 id="advanced-guidance-title">Advanced inputs</h2>
+      <button type="button" class="popover-close" popovertarget="advanced-guidance" popovertargetaction="hide" aria-label="Close advanced inputs help" autofocus>&times;</button>
+    </div>
+    <p>These inputs start with default assumptions. Change only the values for which you have better information; all other values keep their current settings. Leave existing values in place rather than clearing fields, as blanks do not restore defaults. Changes are saved in this browser. Use Reset to restore all inputs, including scenario selections, to their defaults.</p>
+  </section>
   <script src="./app.js"></script>
 </body>
 </html>
