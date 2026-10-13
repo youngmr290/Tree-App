@@ -12,6 +12,8 @@ const DEFAULTS = {
   focus: "Harv Belt",
   soil: "Good",
   area: 1,
+  useCustomLandOpportunityCost: false,
+  landOpportunityCostOverride: 0,
   carbonPriceScenario: "Standard",
   biodiversityPriceScenario: "Standard",
   biomassPriceScenario: "Standard",
@@ -202,6 +204,10 @@ function parseInputs() {
     focus: read("focus"),
     soil: read("soil"),
     area: toNum("area"),
+    useCustomLandOpportunityCost: read("useCustomLandOpportunityCost") === "on",
+    landOpportunityCostOverride: form.elements.landOpportunityCostOverride.value.trim() === ""
+      ? (read("useCustomLandOpportunityCost") === "on" ? NaN : 0)
+      : Number(form.elements.landOpportunityCostOverride.value),
     carbonPriceScenario: read("carbonPriceScenario"),
     biodiversityPriceScenario: read("biodiversityPriceScenario"),
     biomassPriceScenario: read("biomassPriceScenario"),
@@ -268,9 +274,15 @@ function parseInputs() {
   };
 }
 
-function lookupLand(inputs) {
+function modelLandOpportunityCost(inputs) {
   const cost = TABLES.land.find((x) => x[0] === inputs.location && x[1] === inputs.soil && x[2] === inputs.area)?.[3] ?? 0;
-  return -cost;
+  return cost;
+}
+
+function lookupLand(inputs) {
+  return -(inputs.useCustomLandOpportunityCost
+    ? inputs.landOpportunityCostOverride
+    : modelLandOpportunityCost(inputs));
 }
 
 function lookupShelter(inputs) {
@@ -486,6 +498,12 @@ function validate(inputs) {
   if (!FOCUS_OPTIONS.includes(inputs.focus)) return "Invalid planting focus.";
   if (!SOIL_OPTIONS.includes(inputs.soil)) return "Invalid soil option.";
   if (!AREA_OPTIONS.includes(inputs.area)) return "Planting area must be one of 1, 10 or 100 ha.";
+  if (inputs.useCustomLandOpportunityCost && (!Number.isFinite(inputs.landOpportunityCostOverride) || inputs.landOpportunityCostOverride < 0)) {
+    return "Enter an annual land opportunity cost of zero or more, or turn off the custom value.";
+  }
+  if ([inputs.carbonPriceBase, inputs.biomassPriceBase, inputs.biodiversityValueCarbBlock,
+    inputs.biodiversityValueCarbBelt, inputs.biodiversityValueBioBlock, inputs.biodiversityValueHarvBelt]
+    .some((value) => !Number.isFinite(value) || value < 0)) return "Prices and biodiversity values must be zero or more.";
   if (Object.values(inputs).some((v) => typeof v === "number" && Number.isNaN(v))) return "Please enter valid numbers.";
   if (inputs.costMortality >= 1) return "Mortality must be below 100% (for example 10 = 10%).";
   if (inputs.harvestRateTHr <= 0 || inputs.plantingRate <= 0) return "Rates must be greater than zero.";
@@ -613,10 +631,17 @@ function render(result) {
 }
 
 function recalc() {
+  form.elements.landOpportunityCostOverride.disabled = !form.elements.useCustomLandOpportunityCost.checked;
   const inputs = parseInputs();
   const error = validate(inputs);
   validationEl.textContent = error;
   if (error) return;
+  document.querySelector("#carbon-price-applied").textContent = `Applied carbon price: ${formatCurrency(carbonPrice(inputs))}/t CO2e`;
+  const biodiversityKey = { "Carb Block": "biodiversityValueCarbBlock", "Carb Belt": "biodiversityValueCarbBelt", "Bio Block": "biodiversityValueBioBlock", "Harv Belt": "biodiversityValueHarvBelt" }[inputs.focus];
+  document.querySelector("#biodiversity-value-applied").textContent = `Applied ${inputs.focus} project value: ${formatCurrency(inputs[biodiversityKey] * multiplierChoice(inputs.biodiversityPriceScenario))}/ha`;
+  document.querySelector("#biomass-price-applied").textContent = `Applied biomass price: ${formatCurrency(inputs.biomassPriceBase * multiplierChoice(inputs.biomassPriceScenario))}/green t`;
+  const landSource = inputs.useCustomLandOpportunityCost ? "Custom value" : "AFO model estimate";
+  document.querySelector("#land-cost-source").textContent = `Land opportunity cost — ${landSource}: ${formatCurrency(-lookupLand(inputs))}/ha/year.`;
   persist(inputs);
   render(compute(inputs));
 }
@@ -634,6 +659,13 @@ document.querySelector("#reset-btn").addEventListener("click", () => {
 });
 
 document.querySelector("#print-btn").addEventListener("click", () => window.print());
+document.querySelector("#edit-biodiversity-values").addEventListener("click", () => {
+  const group = document.querySelector("#biodiversity-values");
+  group.closest("details").open = true;
+  group.scrollIntoView({ behavior: "smooth", block: "center" });
+  const key = { "Carb Block": "biodiversityValueCarbBlock", "Carb Belt": "biodiversityValueCarbBelt", "Bio Block": "biodiversityValueBioBlock", "Harv Belt": "biodiversityValueHarvBelt" }[form.elements.focus.value];
+  form.elements[key].focus({ preventScroll: true });
+});
 form.addEventListener("input", (event) => {
   if (event.target?.name === "location") updateRegionInputs();
   recalc();
@@ -642,9 +674,10 @@ form.addEventListener("change", (event) => {
   const target = event.target;
   if (!target || !target.name) return;
   if (target.name === "location") updateRegionInputs();
-  if (!TWO_DECIMAL_FIELDS.has(target.name)) return;
-  const numeric = Number(target.value);
-  if (Number.isFinite(numeric)) target.value = numeric.toFixed(2);
+  if (TWO_DECIMAL_FIELDS.has(target.name)) {
+    const numeric = Number(target.value);
+    if (Number.isFinite(numeric)) target.value = numeric.toFixed(2);
+  }
   recalc();
 });
 

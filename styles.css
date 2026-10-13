@@ -181,6 +181,36 @@ h2 {
   font-weight: 600;
 }
 
+.input-note {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.text-button {
+  justify-self: start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--brand-deep);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.override-toggle {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+input:disabled {
+  color: var(--muted);
+  background: #edf1eb;
+}
+
 .info-button {
   display: inline-flex;
   align-items: center;

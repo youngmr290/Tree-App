@@ -67,13 +67,13 @@
         <article class="background-card">
           <h3>Carbon Sequestration</h3>
           <p>Planting trees can sequester carbon. Projects registered under the ACCU Scheme can generate tradable carbon credits (ACCUs).</p>
-          <p>Once generated, credits can be sold, held as a future asset, or inset on-farm to offset farm emissions. Establishing a carbon project can also involve monitoring, administration, and compliance costs.</p>
+          <p>This calculator values carbon through assumed credit sales and includes project setup and monitoring costs. Carbon retained within a farm emissions account can have value, but that use needs separate accounting and is not an additional sales income stream here.</p>
           <p>The calculation applies land management unit (LMU) scalars: good soils use 1.00, while poor soils use 0.70 in the Central Wheatbelt and 0.845 in the Eastern Wheatbelt. A further 5% risk deduction is applied.</p>
         </article>
         <article class="background-card">
           <h3>Biodiversity</h3>
           <p>Tree plantations, particularly with native species, can enhance on-farm biodiversity. Emerging environmental markets may provide incentives and income streams for projects that deliver biodiversity outcomes.</p>
-          <p>Credit yields and prices can vary substantially by vegetation type and local demand. Past observations commonly report around 4-8 credits/ha and values often in the order of $2,300-$8,500 per credit.</p>
+          <p>Biodiversity outcomes and payments depend on the planting, project arrangements and buyer. The values in this tool are editable modelling assumptions, rather than current market quotes.</p>
           <p>Projects may also face setup and annual monitoring costs.</p>
         </article>
         <article class="background-card">
@@ -136,10 +136,12 @@
           <div class="field"><div class="label-with-info"><label for="focus">Planting focus</label><button type="button" class="info-button" popovertarget="planting-guidance" aria-label="About planting focus options">i</button></div><select id="focus" name="focus"><option>Carb Block</option><option>Carb Belt</option><option>Bio Block</option><option>Harv Belt</option></select></div>
           <div class="field"><div class="label-with-info"><label for="soil">Soil</label><button type="button" class="info-button" popovertarget="soil-guidance" aria-label="About soil production potential">i</button></div><select id="soil" name="soil"><option value="Poor">Poor — 70% production potential</option><option value="Good">Good — 100% production potential</option></select></div>
           <label class="field"><span>Planting area (ha)</span><select name="area"><option value="1">1</option><option value="10">10</option><option value="100">100</option></select></label>
-          <div class="field"><div class="label-with-info"><label for="carbon-price-scenario">Carbon price scenario</label><button type="button" class="info-button" popovertarget="price-guidance" aria-label="About carbon price scenarios">i</button></div><select id="carbon-price-scenario" name="carbonPriceScenario"><option>Low (-50%)</option><option>Standard</option><option>High (+50%)</option></select></div>
-          <div class="field"><div class="label-with-info"><label for="biodiversity-price-scenario">Biodiversity price scenario</label><button type="button" class="info-button" popovertarget="price-guidance" aria-label="About biodiversity price scenarios">i</button></div><select id="biodiversity-price-scenario" name="biodiversityPriceScenario"><option>Low -50%</option><option>Standard</option><option>High +50%</option></select></div>
-          <div class="field"><div class="label-with-info"><label for="biomass-price-scenario">Biomass price scenario</label><button type="button" class="info-button" popovertarget="price-guidance" aria-label="About biomass price scenarios">i</button></div><select id="biomass-price-scenario" name="biomassPriceScenario"><option>Low -50%</option><option>Standard</option><option>High +50%</option></select></div>
+          <div class="field"><div class="label-with-info"><label for="carbon-price-scenario">Carbon price scenario</label><button type="button" class="info-button" popovertarget="price-guidance" aria-label="About carbon price scenarios">i</button></div><select id="carbon-price-scenario" name="carbonPriceScenario"><option>Low (-50%)</option><option>Standard</option><option>High (+50%)</option></select><label for="carbon-price-base">Standard carbon price ($/t CO2e)</label><input id="carbon-price-base" type="number" name="carbonPriceBase" step="1" min="0"><small id="carbon-price-applied" class="input-note"></small></div>
+          <div class="field"><div class="label-with-info"><label for="biodiversity-price-scenario">Biodiversity price scenario</label><button type="button" class="info-button" popovertarget="price-guidance" aria-label="About biodiversity price scenarios">i</button></div><select id="biodiversity-price-scenario" name="biodiversityPriceScenario"><option>Low -50%</option><option>Standard</option><option>High +50%</option></select><small id="biodiversity-value-applied" class="input-note"></small><button id="edit-biodiversity-values" type="button" class="text-button">Edit biodiversity values</button></div>
+          <div class="field"><div class="label-with-info"><label for="biomass-price-scenario">Biomass price scenario</label><button type="button" class="info-button" popovertarget="price-guidance" aria-label="About biomass price scenarios">i</button></div><select id="biomass-price-scenario" name="biomassPriceScenario"><option>Low -50%</option><option>Standard</option><option>High +50%</option></select><small id="biomass-price-applied" class="input-note"></small></div>
         </div>
+
+        <p class="input-note">Prices and project values are scenario assumptions, not current market quotes. Edit them to explore your own assumptions.</p>
 
         <div class="check-grid">
           <label><input type="checkbox" name="includeShelter"> Include livestock shelter</label>
@@ -154,6 +156,12 @@
         <details>
           <summary>Advanced Inputs <button type="button" class="info-button" popovertarget="advanced-guidance" aria-label="About using advanced inputs">i</button></summary>
 
+
+          <fieldset class="assumption-group">
+            <legend class="label-with-info">Land opportunity cost <button type="button" class="info-button" popovertarget="land-override-guidance" aria-label="About using your own land opportunity cost">i</button></legend>
+            <label class="override-toggle"><input type="checkbox" name="useCustomLandOpportunityCost"> Use my own annual land opportunity cost</label>
+            <label class="field"><span>Farming profit forgone ($/ha/year)</span><input type="number" name="landOpportunityCostOverride" min="0" step="0.01" disabled></label>
+          </fieldset>
 
           <fieldset class="assumption-group">
             <legend>Cost - Initial Costs (Site Prep)</legend>
@@ -202,17 +210,17 @@
             </div>
           </fieldset>
 
-          <fieldset class="assumption-group">
+          <fieldset id="biodiversity-values" class="assumption-group">
             <legend>Biodiversity Costs and Values</legend>
             <div class="field-grid">
               <label class="field"><span>Setup Monitoring and Auditing ($/farm)</span><input type="number" name="costBiodiversitySetupFarm" step="1"></label>
               <label class="field"><span>Annual Monitoring and Auditing ($/ha)</span><input type="number" name="costBiodiversityAnnualHa" step="1"></label>
             </div>
             <div class="field-grid four-col">
-              <label class="field"><span>Biodiversity Value - Carb Block ($/ha)</span><input type="number" name="biodiversityValueCarbBlock" step="1"></label>
-              <label class="field"><span>Biodiversity Value - Carb Belt ($/ha)</span><input type="number" name="biodiversityValueCarbBelt" step="1"></label>
-              <label class="field"><span>Biodiversity Value - Bio Block ($/ha)</span><input type="number" name="biodiversityValueBioBlock" step="1"></label>
-              <label class="field"><span>Biodiversity Value - Harv Belt ($/ha)</span><input type="number" name="biodiversityValueHarvBelt" step="1"></label>
+              <label class="field"><span>Total Project Value - Carb Block ($/ha)</span><input type="number" name="biodiversityValueCarbBlock" step="1"></label>
+              <label class="field"><span>Total Project Value - Carb Belt ($/ha)</span><input type="number" name="biodiversityValueCarbBelt" step="1"></label>
+              <label class="field"><span>Total Project Value - Bio Block ($/ha)</span><input type="number" name="biodiversityValueBioBlock" step="1"></label>
+              <label class="field"><span>Total Project Value - Harv Belt ($/ha)</span><input type="number" name="biodiversityValueHarvBelt" step="1"></label>
             </div>
           </fieldset>
 
@@ -227,9 +235,6 @@
               <label class="field region-input" data-region="Eastern wheatbelt"><span>Average Yield - Bio Block (t CO2e/ha/yr)</span><input type="number" name="carbonYieldBioBlockEastern" step="0.01"></label>
               <label class="field region-input" data-region="Central wheatbelt"><span>Average Yield - Harv Belt (t CO2e/ha/yr)</span><input type="number" name="carbonYieldHarvBeltCentral" step="0.01"></label>
               <label class="field region-input" data-region="Eastern wheatbelt"><span>Average Yield - Harv Belt (t CO2e/ha/yr)</span><input type="number" name="carbonYieldHarvBeltEastern" step="0.01"></label>
-            </div>
-            <div class="field-grid">
-              <label class="field"><span>Carbon Price - Standard ($/t CO2e)</span><input type="number" name="carbonPriceBase" step="1"></label>
             </div>
           </fieldset>
 
@@ -285,6 +290,8 @@
 
     <section class="panel">
       <h2>Results</h2>
+      <p class="input-note label-with-info">Results are annualised over 25 years using a 5% discount rate. Actual costs and receipts occur at different times. <button type="button" class="info-button" popovertarget="timing-guidance" aria-label="About return timing and annualisation">i</button></p>
+      <p id="land-cost-source" class="input-note"></p>
       <div class="results-grid">
         <article class="result-card">
           <p class="label">Economic impact ($/ha of trees/year)</p>
@@ -362,7 +369,7 @@
       <h2 id="price-guidance-title">Price scenarios</h2>
       <button type="button" class="popover-close" popovertarget="price-guidance" popovertargetaction="hide" aria-label="Close price scenarios help" autofocus>&times;</button>
     </div>
-    <p>Standard uses the price or value in Advanced Inputs. Low reduces it by 50%; High increases it by 50%.</p>
+    <p>Standard uses your entered carbon price or the biomass price and biodiversity project values in Advanced Inputs. Low reduces the relevant price or value by 50%; High increases it by 50%. These are scenario assumptions, not current market quotes. Prices are held constant through the modelled period; future price escalation and CPI are not modelled.</p>
   </section>
 
   <section id="land-guidance" class="info-popover" popover role="dialog" aria-labelledby="land-guidance-title">
@@ -372,6 +379,20 @@
     </div>
     <p>It represents <strong>farming profit forgone</strong>, rather than the purchase value of land.</p>
     <p>The current estimate comes from AFO-derived values selected by <strong>region, soil and planting area</strong>.</p>
+  </section>
+
+  <section id="land-override-guidance" class="info-popover" popover role="dialog" aria-labelledby="land-override-title">
+    <div class="popover-heading"><h2 id="land-override-title">Your own land opportunity cost</h2><button type="button" class="popover-close" popovertarget="land-override-guidance" popovertargetaction="hide" aria-label="Close land override help" autofocus>&times;</button></div>
+    <p>Enter the annual farming profit you expect to forgo on each hectare planted to trees. Consider the best realistic alternative use, including grazing where cropping is unproductive. Enter zero if no farming profit is forgone.</p>
+    <p>A paddock gross margin may differ from whole-farm profit forgone. This input replaces only the land opportunity-cost component; region and soil still set tree-growth assumptions and other farm effects.</p>
+    <p>Turn the option off to return to the AFO model estimate. Reset restores the default settings.</p>
+  </section>
+
+  <section id="timing-guidance" class="info-popover" popover role="dialog" aria-labelledby="timing-title">
+    <div class="popover-heading"><h2 id="timing-title">Return timing</h2><button type="button" class="popover-close" popovertarget="timing-guidance" popovertargetaction="hide" aria-label="Close return timing help" autofocus>&times;</button></div>
+    <p>Upfront and later project costs and returns are converted to equivalent annual amounts over 25 years at a 5% discount rate. The total is an economic comparison, rather than an annual cash-flow forecast or payback period.</p>
+    <p>Carbon uses a changing annual sequestration profile, scaled by the average yield you enter. Biomass receipts occur in modelled harvest years. Biodiversity uses an assumed upfront total project value per hectare, annualised over the same period, less setup and annual monitoring costs.</p>
+    <p>The discount rate reflects the timing of money; it is not a loan interest rate or a CPI adjustment. Some ongoing farming effects are already supplied as annual AFO values.</p>
   </section>
 
   <section id="advanced-guidance" class="info-popover" popover role="dialog" aria-labelledby="advanced-guidance-title">
