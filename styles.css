@@ -263,36 +263,23 @@ h2 {
   width: min(42rem, calc(100vw - 2rem));
 }
 
-.map-image {
-  position: relative;
+.map-key {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0.75rem 0;
 }
 
-.map-markers {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+.map-key strong {
+  display: block;
+  margin-bottom: 0.15rem;
 }
 
-.map-marker circle {
-  fill: var(--brand);
-  stroke: #fff;
-  stroke-width: 4;
+.map-key-central {
+  color: #286447;
 }
 
-.map-marker path {
-  fill: none;
-  stroke: var(--brand);
-  stroke-width: 5;
-}
-
-.map-marker text {
-  fill: var(--brand-deep);
-  stroke: #fff;
-  stroke-width: 9;
-  paint-order: stroke;
-  font: 700 34px "Manrope", "Segoe UI", sans-serif;
+.map-key-eastern {
+  color: #936627;
 }
 
 .region-input[hidden] {

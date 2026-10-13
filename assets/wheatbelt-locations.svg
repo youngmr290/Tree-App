@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 380" role="img" aria-labelledby="title desc">
+<title id="title">Northam and Merredin in the Western Australian Wheatbelt</title>
+<desc id="desc">A geographic reference map showing Perth near the west coast, Northam inland to the north-east, and Merredin further east. Northam represents the Central Wheatbelt model setting and Merredin the Eastern Wheatbelt setting. No model-region boundaries are shown.</desc>
+<metadata>Coastline: Natural Earth 1:50m admin-0 countries, public domain, retrieved 13 October 2026. https://www.naturalearthdata.com/ Approximate town coordinates: Perth 31.95 S 115.86 E, Northam 31.65 S 116.67 E (Perth Observatory almanac); Merredin 31.48 S 118.28 E (Bureau of Meteorology station 010092). Map uses a local equirectangular projection at 31.65 S.</metadata>
+<style>.town {font:700 34px 'Segoe UI',Arial,sans-serif;paint-order:stroke;stroke:#fff;stroke-width:6px;stroke-linejoin:round} .note {font:20px 'Segoe UI',Arial,sans-serif;fill:#46666c}</style>
+<defs><clipPath id="map-clip"><rect x="0" y="0" width="660" height="380" rx="12"/></clipPath></defs>
+<g clip-path="url(#map-clip)">
+<rect width="660" height="380" fill="#e6f0f3"/>
+<path d="M123.2,348.6 L127.0,339.7 L134.6,334.9 L137.1,307.1 L138.9,221.5 L133.3,189.2 L98.7,123.8 L75.9,67.0 L59.2,41.4 L50.2,15.0 L602.1,15.0 L602.1,348.6 Z" fill="#edf1df"/>
+<path d="M121.9,351.5 L127.0,339.7 M127.0,339.7 L134.6,334.9 M134.6,334.9 L137.1,307.1 M137.1,307.1 L138.9,221.5 M138.9,221.5 L133.3,189.2 M133.3,189.2 L98.7,123.8 M98.7,123.8 L75.9,67.0 M75.9,67.0 L59.2,41.4 M59.2,41.4 L45.2,0.1" fill="none" stroke="#94afa0" stroke-width="2.5"/>
+<text x="23" y="295" class="note">Indian</text><text x="23" y="322" class="note">Ocean</text>
+<circle cx="156.2" cy="231.9" r="9" fill="#60736b" stroke="white" stroke-width="4"/><text x="171.2" y="274.9" class="town" fill="#60736b">Perth</text><circle cx="271.2" cy="181.8" r="9" fill="#286447" stroke="white" stroke-width="4"/><text x="283.2" y="156.8" class="town" fill="#286447">Northam</text><circle cx="499.9" cy="153.5" r="9" fill="#936627" stroke="white" stroke-width="4"/><text x="431.9" y="128.5" class="town" fill="#936627">Merredin</text>
+<g transform="translate(610 32)" stroke="#365644" stroke-width="3" fill="#365644"><path d="M0 45 V7 M-7 18 L0 5 L7 18" fill="none"/><text x="0" y="0" text-anchor="middle" stroke="none" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="700">N</text></g>
+<g transform="translate(456 335)"><path d="M0 -7 V0 H150.0 V-7 M75.0 0 V-7" fill="none" stroke="#365644" stroke-width="3"/><text x="0" y="28" class="note">0</text><text x="150.0" y="28" text-anchor="end" class="note">100 km</text></g>
+</g></svg>
