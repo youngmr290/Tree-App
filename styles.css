@@ -356,6 +356,56 @@ summary {
   margin-bottom: 0.75rem;
 }
 
+.guide-link {
+  color: var(--brand-deep);
+  font-weight: 700;
+  text-underline-offset: 0.2em;
+}
+
+.intro-panel {
+  margin-top: 0;
+  padding: 1.15rem;
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.intro-panel > summary {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.intro-panel > summary::-webkit-details-marker {
+  display: none;
+}
+
+.intro-panel > summary::before {
+  content: "\25B6";
+  font-size: 0.75rem;
+}
+
+.intro-panel[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.intro-panel[open] > summary {
+  margin-bottom: 1rem;
+}
+
+.intro-panel > summary h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.intro-panel > summary:focus-visible,
+.guide-link:focus-visible {
+  outline: 3px solid var(--brand);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
 .assumption-group {
   border: 1px solid var(--line);
   border-radius: 12px;
