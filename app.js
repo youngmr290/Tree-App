@@ -576,6 +576,16 @@ function renderChart(rows) {
     const labelEl = document.createElement("span");
     labelEl.className = "chart-label";
     labelEl.textContent = label;
+    if (label === "Land opportunity cost") {
+      labelEl.classList.add("label-with-info");
+      const infoButton = document.createElement("button");
+      infoButton.type = "button";
+      infoButton.className = "info-button";
+      infoButton.textContent = "i";
+      infoButton.setAttribute("popovertarget", "land-guidance");
+      infoButton.setAttribute("aria-label", "About land opportunity cost");
+      labelEl.appendChild(infoButton);
+    }
 
     const track = document.createElement("span");
     track.className = "chart-track";
