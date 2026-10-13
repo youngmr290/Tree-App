@@ -187,17 +187,7 @@ h2 {
   line-height: 1.5;
 }
 
-.text-button {
-  justify-self: start;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--brand-deep);
-  font: inherit;
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-  cursor: pointer;
-}
+
 
 .override-toggle {
   display: flex;
@@ -676,4 +666,22 @@ th {
   .actions, .validation-message, .info-button, .info-popover {
     display: none;
   }
+}
+
+.price-note {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.price-edit {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--brand);
+  font: inherit;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  cursor: pointer;
 }

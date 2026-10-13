@@ -636,10 +636,11 @@ function recalc() {
   const error = validate(inputs);
   validationEl.textContent = error;
   if (error) return;
-  document.querySelector("#carbon-price-applied").textContent = `Applied carbon price: ${formatCurrency(carbonPrice(inputs))}/t CO2e`;
-  const biodiversityKey = { "Carb Block": "biodiversityValueCarbBlock", "Carb Belt": "biodiversityValueCarbBelt", "Bio Block": "biodiversityValueBioBlock", "Harv Belt": "biodiversityValueHarvBelt" }[inputs.focus];
-  document.querySelector("#biodiversity-value-applied").textContent = `Applied ${inputs.focus} project value: ${formatCurrency(inputs[biodiversityKey] * multiplierChoice(inputs.biodiversityPriceScenario))}/ha`;
-  document.querySelector("#biomass-price-applied").textContent = `Applied biomass price: ${formatCurrency(inputs.biomassPriceBase * multiplierChoice(inputs.biomassPriceScenario))}/green t`;
+  document.querySelector("#carbon-price-applied").textContent = `Standard carbon price: ${formatCurrency(inputs.carbonPriceBase)}/t CO2e`;
+  document.querySelector("#biomass-price-applied").textContent = `Standard biomass price: ${formatCurrency(inputs.biomassPriceBase)}/green t`;
+  const biodiversityField = "biodiversityValue" + inputs.focus.replaceAll(" ", "");
+  document.querySelector("#biodiversity-value-standard").textContent = `Standard biodiversity project value (${inputs.focus}): ${formatCurrency(inputs[biodiversityField])}/ha`;
+  document.querySelector("#edit-biodiversity-value").dataset.priceField = biodiversityField;
   const landSource = inputs.useCustomLandOpportunityCost ? "Custom value" : "AFO model estimate";
   document.querySelector("#land-cost-source").textContent = `Land opportunity cost — ${landSource}: ${formatCurrency(-lookupLand(inputs))}/ha/year.`;
   persist(inputs);
@@ -658,14 +659,18 @@ document.querySelector("#reset-btn").addEventListener("click", () => {
   recalc();
 });
 
-document.querySelector("#print-btn").addEventListener("click", () => window.print());
-document.querySelector("#edit-biodiversity-values").addEventListener("click", () => {
-  const group = document.querySelector("#biodiversity-values");
-  group.closest("details").open = true;
-  group.scrollIntoView({ behavior: "smooth", block: "center" });
-  const key = { "Carb Block": "biodiversityValueCarbBlock", "Carb Belt": "biodiversityValueCarbBelt", "Bio Block": "biodiversityValueBioBlock", "Harv Belt": "biodiversityValueHarvBelt" }[form.elements.focus.value];
-  form.elements[key].focus({ preventScroll: true });
+document.querySelectorAll("[data-price-field]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const input = form.elements[button.dataset.priceField];
+    input.closest("details").open = true;
+    input.scrollIntoView({ behavior: "smooth", block: "center" });
+    input.focus({ preventScroll: true });
+    input.select();
+  });
 });
+
+document.querySelector("#print-btn").addEventListener("click", () => window.print());
+
 form.addEventListener("input", (event) => {
   if (event.target?.name === "location") updateRegionInputs();
   recalc();
